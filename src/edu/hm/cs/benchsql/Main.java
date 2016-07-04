@@ -7,14 +7,14 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    public static void main(String[] args) {
-        launch(args);
+    public static void main(final String[] args) {
+        Application.launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        Model model = new Model(primaryStage);
-        MainVC mainVC = new MainVC(model);
+    public void start(final Stage primaryStage) {
+        final Model model = new Model(primaryStage);
+        final MainVC mainVC = new MainVC(model);
         mainVC.show();
     }
 }
