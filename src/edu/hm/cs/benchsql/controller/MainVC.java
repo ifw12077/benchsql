@@ -20,11 +20,11 @@ public class MainVC {
     }
 
     private void setOnAction() {
-        this.mainView.getMenuItemOpen().setOnAction(new OpenEventHandler(this.model));
+        this.mainView.getMenuItemOpen().setOnAction(new OpenEventHandler(this.model, this.mainView));
 
         this.mainView.getMenuItemAbout().setOnAction(event -> {
             final Alert alert = new Alert(AlertType.NONE);
-            alert.setTitle("Über benchSQL");
+            alert.setTitle("\u00dcber benchSQL");
             alert.setHeaderText("\u00a9 by Jan Opitz");
             alert.setContentText("Version: 2016-07-04");
             alert.getButtonTypes().setAll(new ButtonType("OK", ButtonData.CANCEL_CLOSE));

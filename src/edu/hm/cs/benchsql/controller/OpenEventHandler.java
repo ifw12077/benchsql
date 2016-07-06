@@ -1,9 +1,14 @@
 package edu.hm.cs.benchsql.controller;
 
-import edu.hm.cs.benchsql.model.Model;
-import javafx.event.ActionEvent;
-import javafx.scene.control.TextInputDialog;
-import javafx.stage.FileChooser;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.Optional;
+
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -11,27 +16,31 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.*;
-import java.util.Iterator;
-import java.util.Optional;
+import edu.hm.cs.benchsql.model.Model;
+import edu.hm.cs.benchsql.view.MainView;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TextInputDialog;
+import javafx.stage.FileChooser;
 
-public class OpenEventHandler implements javafx.event.EventHandler<ActionEvent> {
+public class OpenEventHandler implements EventHandler<ActionEvent> {
 
     private final Model model;
+    private final MainView mainView;
 
-    public OpenEventHandler(final Model model) {
+    public OpenEventHandler(final Model model, final MainView mainView) {
         this.model = model;
+        this.mainView = mainView;
     }
 
     @Override
     public void handle(final ActionEvent event) {
         final FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters()
-                .add(new FileChooser.ExtensionFilter("Excel Dateien (.xlsx)", "*.xlsx"));
-        fileChooser.getExtensionFilters()
-                .add(new FileChooser.ExtensionFilter("Excel 2003 Dateien (.xls)", "*.xls"));
-        fileChooser.getExtensionFilters()
-                .add(new FileChooser.ExtensionFilter("Trennzeichen getrennt (.csv)", "*.csv"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Dateien", "*.xlsx"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel 2003 Dateien", "*.xls"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Trennzeichen getrennt", "*.csv"));
         final File file = fileChooser.showOpenDialog(this.model.getPrimaryStage());
         if (file != null) {
             String extension = "";
@@ -92,8 +101,16 @@ public class OpenEventHandler implements javafx.event.EventHandler<ActionEvent> 
             while (line != null) {
                 i++;
                 final String[] lineArray = line.split(delimiter);
-                if (lineArray.length > j) {
+                if (j == 0) {
                     j = lineArray.length;
+                }
+                if (lineArray.length != j) {
+                    final Alert alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Problem beim CSV Import");
+                    alert.setHeaderText("Keine Tabellenformaterung gefunden");
+                    alert.setContentText("Die ausgewählte CSV Datei hat nicht die benötigte Formatierung!");
+                    alert.showAndWait();
+                    break;
                 }
                 line = br.readLine();
             }
@@ -128,7 +145,26 @@ public class OpenEventHandler implements javafx.event.EventHandler<ActionEvent> 
 
     private void readExcel(final Workbook workbook) {
         final Sheet firstSheet = workbook.getSheetAt(0);
-        final Iterator<Row> iterator = firstSheet.iterator();
+        Iterator<Row> iterator = firstSheet.iterator();
+
+        Integer i = 0;
+        Integer j = 0;
+
+        while (iterator.hasNext()) {
+            final Row nextRow = iterator.next();
+            i++;
+            final Iterator<Cell> cellIterator = nextRow.cellIterator();
+
+            while (cellIterator.hasNext()) {
+                cellIterator.next();
+                j++;
+            }
+        }
+
+        iterator = firstSheet.iterator();
+        final String[][] excelArray = new String[i][j];
+        i = 0;
+        j = 0;
 
         while (iterator.hasNext()) {
             final Row nextRow = iterator.next();
@@ -138,23 +174,30 @@ public class OpenEventHandler implements javafx.event.EventHandler<ActionEvent> 
                 final Cell cell = cellIterator.next();
                 switch (cell.getCellType()) {
                     case Cell.CELL_TYPE_STRING:
-                        System.out.print(cell.getStringCellValue());
-                        break;
+                        excelArray[i][j] = cell.getStringCellValue();
                     case Cell.CELL_TYPE_BOOLEAN:
-                        System.out.print(cell.getBooleanCellValue());
-                        break;
+                        excelArray[i][j] = String.valueOf(cell.getBooleanCellValue());
                     case Cell.CELL_TYPE_NUMERIC:
-                        System.out.print(cell.getNumericCellValue());
-                        break;
+                        excelArray[i][j] = String.valueOf(cell.getNumericCellValue());
+                    default:
+                        excelArray[i][j] = "";
                 }
-                System.out.print(" - ");
+                j++;
             }
-            System.out.println();
+            i++;
+            j = 0;
         }
-
+        this.writeToTable(excelArray);
     }
 
-    private void writeToTable(final String[][] csvArray) {
+    private void writeToTable(final String[][] tableArray) {
+        for (final String[] array : tableArray) {
+            for (final String field : array) {
+                if (this.mainView.getTableViewData().getColumns().size() == 0) {
+
+                }
+            }
+        }
 
     }
 
