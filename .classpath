@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/Jan/IdeaProjects/benchsql/src/edu/hm/cs/benchsql/resources/poi-3.14-20160307.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Jan/IdeaProjects/benchsql/src/edu/hm/cs/benchsql/resources/poi-ooxml-3.14-20160307.jar"/>
+	<classpathentry kind="lib" path="C:/Users/jan.opitz/IdeaProjects/benchsql/src/edu/hm/cs/benchsql/resources/poi-3.14-20160307.jar"/>
+	<classpathentry kind="lib" path="C:/Users/jan.opitz/IdeaProjects/benchsql/src/edu/hm/cs/benchsql/resources/poi-ooxml-3.14-20160307.jar"/>
 	<classpathentry kind="output" path="out/production/JavaFxApplication"/>
 </classpath>
