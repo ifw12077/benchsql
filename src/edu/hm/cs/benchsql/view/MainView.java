@@ -1,7 +1,12 @@
 package edu.hm.cs.benchsql.view;
 
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.SplitPane;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -20,7 +25,7 @@ public class MainView {
     private final MenuItem menuItemAbout;
     private final SplitPane splitPane;
     private final VBox vBoxConnection;
-    private final ScrollPane scrollPaneData;
+    private final TableView<String> tableViewData;
     private final HBox hBox;
 
     public MainView() {
@@ -28,21 +33,20 @@ public class MainView {
 
         this.menuBar = new MenuBar();
         this.menuFile = new Menu("Datei");
-        this.menuItemOpen = new MenuItem("Öffnen");
+        this.menuItemOpen = new MenuItem("\u00d6ffnen");
         this.separatorMenuItem = new SeparatorMenuItem();
         this.menuItemQuit = new MenuItem("Beenden");
-        this.menuFile.getItems().addAll(this.menuItemOpen, this.separatorMenuItem,
-                this.menuItemQuit);
+        this.menuFile.getItems().addAll(this.menuItemOpen, this.separatorMenuItem, this.menuItemQuit);
         this.menuHelp = new Menu("Hilfe");
-        this.menuItemAbout = new MenuItem("Über");
+        this.menuItemAbout = new MenuItem("\u00dcber");
         this.menuHelp.getItems().addAll(this.menuItemAbout);
         this.menuBar.getMenus().addAll(this.menuFile, this.menuHelp);
 
         this.splitPane = new SplitPane();
         this.vBoxConnection = new VBox();
-        this.scrollPaneData = new ScrollPane();
+        this.tableViewData = new TableView<>();
 
-        this.splitPane.getItems().addAll(this.vBoxConnection, this.scrollPaneData);
+        this.splitPane.getItems().addAll(this.vBoxConnection, this.tableViewData);
 
         this.hBox = new HBox();
 
@@ -63,6 +67,10 @@ public class MainView {
 
     public MenuItem getMenuItemQuit() {
         return this.menuItemQuit;
+    }
+
+    public TableView<String> getTableViewData() {
+        return this.tableViewData;
     }
 
     public void show(final Stage primaryStage) {
