@@ -1,5 +1,7 @@
 package edu.hm.cs.benchsql.controller;
 
+import edu.hm.cs.benchsql.controller.events.CloseEventHandler;
+import edu.hm.cs.benchsql.controller.events.OpenEventHandler;
 import edu.hm.cs.benchsql.model.Model;
 import edu.hm.cs.benchsql.view.MainView;
 
@@ -15,6 +17,7 @@ public class MainVC {
     }
 
     private void setOnAction() {
+        this.model.getPrimaryStage().setOnCloseRequest(new CloseEventHandler(this.model, this.mainView));
         this.mainView.getButtonImportData().setOnAction(new OpenEventHandler(this.model, this.mainView));
     }
 

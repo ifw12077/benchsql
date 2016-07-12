@@ -1,4 +1,4 @@
-package edu.hm.cs.benchsql.controller;
+package edu.hm.cs.benchsql.controller.events;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -108,7 +108,7 @@ public class OpenEventHandler implements EventHandler<ActionEvent> {
                     final Alert alert = new Alert(AlertType.ERROR);
                     alert.setTitle("Problem beim CSV Import");
                     alert.setHeaderText("Keine Tabellenformaterung gefunden");
-                    alert.setContentText("Die ausgewählte CSV Datei hat nicht die benötigte Formatierung!");
+                    alert.setContentText("Die ausgew\u00e4hlte CSV Datei hat nicht die ben\u00f6tigte Formatierung!");
                     alert.showAndWait();
                     break;
                 }
