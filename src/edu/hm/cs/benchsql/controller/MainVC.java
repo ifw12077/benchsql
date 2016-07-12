@@ -17,6 +17,7 @@ public class MainVC {
     }
 
     private void setOnAction() {
+        this.mainView.getSplitPane().setDividerPositions(0.0);
         this.model.getPrimaryStage().setOnCloseRequest(new CloseEventHandler(this.model, this.mainView));
         this.mainView.getButtonImportData().setOnAction(new OpenEventHandler(this.model, this.mainView));
     }
@@ -24,5 +25,4 @@ public class MainVC {
     public void show() {
         this.mainView.show(this.model.getPrimaryStage());
     }
-
 }

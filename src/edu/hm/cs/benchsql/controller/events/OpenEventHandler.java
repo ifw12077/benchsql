@@ -1,6 +1,5 @@
 package edu.hm.cs.benchsql.controller.events;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,36 +10,36 @@ import java.util.Optional;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.opencsv.CSVReader;
+
 import edu.hm.cs.benchsql.model.Model;
 import edu.hm.cs.benchsql.view.MainView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.FileChooser;
 
 public class OpenEventHandler implements EventHandler<ActionEvent> {
 
     private final Model model;
-    private final MainView mainView;
 
     public OpenEventHandler(final Model model, final MainView mainView) {
         this.model = model;
-        this.mainView = mainView;
     }
 
     @Override
     public void handle(final ActionEvent event) {
         final FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Dateien", "*.xlsx"));
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel 2003 Dateien", "*.xls"));
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Trennzeichen getrennt", "*.csv"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Dateien (*.xlsx)", "*.xlsx"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel 2003 Dateien (*.xls)", "*.xls"));
+        fileChooser.getExtensionFilters()
+                .add(new FileChooser.ExtensionFilter("Trennzeichen getrennt (*.csv)", "*.csv"));
         final File file = fileChooser.showOpenDialog(this.model.getPrimaryStage());
         if (file != null) {
             String extension = "";
@@ -75,13 +74,37 @@ public class OpenEventHandler implements EventHandler<ActionEvent> {
                         e.printStackTrace();
                     }
                 case "csv":
-                    final TextInputDialog dialog = new TextInputDialog(";");
-                    dialog.setTitle("CSV Trennzeichen");
-                    dialog.setHeaderText("Mit welchem Zeichen werden die Spalten getrennt?");
-                    dialog.setContentText("Trennzeichen:");
-                    final Optional<String> result = dialog.showAndWait();
-                    if (result.isPresent()) {
-                        this.readCsv(fileName, result.get());
+                    try {
+                        final TextInputDialog dialog = new TextInputDialog(";");
+                        dialog.setTitle("CSV Trennzeichen");
+                        dialog.setHeaderText("Mit welchem Zeichen werden die Spalten getrennt?");
+                        dialog.setContentText("Trennzeichen:");
+                        final CSVReader csvReader;
+                        final Optional<String> result = dialog.showAndWait();
+                        if (result.isPresent()) {
+                            csvReader = new CSVReader(new FileReader(fileName), result.get().charAt(0));
+                            final Workbook workbook = new HSSFWorkbook();
+                            final CreationHelper helper = workbook.getCreationHelper();
+                            final Sheet sheet = workbook.createSheet();
+                            String[] line = csvReader.readNext();
+                            Integer rowCount = 0;
+
+                            while (line != null) {
+                                final Row row = sheet.createRow(rowCount);
+                                for (int j = 0; j < line.length; j++) {
+                                    row.createCell(j).setCellValue(helper.createRichTextString(line[j]));
+                                }
+                                rowCount++;
+                                line = csvReader.readNext();
+                            }
+                            this.readExcel(workbook);
+                            workbook.close();
+                            csvReader.close();
+                        }
+                    } catch (final FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (final IOException e) {
+                        e.printStackTrace();
                     }
                 default:
                     break;
@@ -90,65 +113,13 @@ public class OpenEventHandler implements EventHandler<ActionEvent> {
 
     }
 
-    private void readCsv(final String fileName, final String delimiter) {
-        BufferedReader br = null;
-        String line = "";
-        try {
-            br = new BufferedReader(new FileReader(fileName));
-            line = br.readLine();
-            Integer i = 0;
-            Integer j = 0;
-            while (line != null) {
-                i++;
-                final String[] lineArray = line.split(delimiter);
-                if (j == 0) {
-                    j = lineArray.length;
-                }
-                if (lineArray.length != j) {
-                    final Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Problem beim CSV Import");
-                    alert.setHeaderText("Keine Tabellenformaterung gefunden");
-                    alert.setContentText("Die ausgew\u00e4hlte CSV Datei hat nicht die ben\u00f6tigte Formatierung!");
-                    alert.showAndWait();
-                    break;
-                }
-                line = br.readLine();
-            }
-            br.close();
-            final String[][] csvArray = new String[i][j];
-            br = new BufferedReader(new FileReader(fileName));
-            line = br.readLine();
-            i = 0;
-            while (line != null) {
-                final String[] lineArray = line.split(delimiter);
-                for (int k = 0; k < lineArray.length; k++) {
-                    csvArray[i][k] = lineArray[k];
-                }
-                line = br.readLine();
-                i++;
-            }
-            this.writeToTable(csvArray);
-        } catch (final FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (final IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (final IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
     private void readExcel(final Workbook workbook) {
         final Sheet firstSheet = workbook.getSheetAt(0);
         Iterator<Row> iterator = firstSheet.iterator();
 
         Integer i = 0;
         Integer j = 0;
+        Integer cellCount = 0;
 
         while (iterator.hasNext()) {
             final Row nextRow = iterator.next();
@@ -159,10 +130,15 @@ public class OpenEventHandler implements EventHandler<ActionEvent> {
                 cellIterator.next();
                 j++;
             }
+            if (j > cellCount) {
+                cellCount = j;
+            }
+
+            j = 0;
         }
 
         iterator = firstSheet.iterator();
-        final String[][] excelArray = new String[i][j];
+        final String[][] excelArray = new String[i][cellCount];
         i = 0;
         j = 0;
 
@@ -172,15 +148,15 @@ public class OpenEventHandler implements EventHandler<ActionEvent> {
 
             while (cellIterator.hasNext()) {
                 final Cell cell = cellIterator.next();
-                switch (cell.getCellType()) {
-                    case Cell.CELL_TYPE_STRING:
-                        excelArray[i][j] = cell.getStringCellValue();
-                    case Cell.CELL_TYPE_BOOLEAN:
-                        excelArray[i][j] = String.valueOf(cell.getBooleanCellValue());
-                    case Cell.CELL_TYPE_NUMERIC:
-                        excelArray[i][j] = String.valueOf(cell.getNumericCellValue());
-                    default:
-                        excelArray[i][j] = "";
+                final int cellType = cell.getCellType();
+                if (cellType == Cell.CELL_TYPE_STRING) {
+                    excelArray[i][j] = cell.getStringCellValue();
+                } else if (cellType == Cell.CELL_TYPE_BOOLEAN) {
+                    excelArray[i][j] = String.valueOf(cell.getBooleanCellValue());
+                } else if (cellType == Cell.CELL_TYPE_NUMERIC) {
+                    excelArray[i][j] = String.valueOf(cell.getNumericCellValue());
+                } else {
+                    excelArray[i][j] = "";
                 }
                 j++;
             }
@@ -193,9 +169,6 @@ public class OpenEventHandler implements EventHandler<ActionEvent> {
     private void writeToTable(final String[][] tableArray) {
         for (final String[] array : tableArray) {
             for (final String field : array) {
-                if (this.mainView.getTableViewData().getColumns().size() == 0) {
-
-                }
             }
         }
 
