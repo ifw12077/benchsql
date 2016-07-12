@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Optional;
 
@@ -20,16 +21,22 @@ import com.opencsv.CSVReader;
 
 import edu.hm.cs.benchsql.model.Model;
 import edu.hm.cs.benchsql.view.MainView;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.FileChooser;
 
 public class OpenEventHandler implements EventHandler<ActionEvent> {
 
     private final Model model;
+    private final MainView mainView;
 
     public OpenEventHandler(final Model model, final MainView mainView) {
+        this.mainView = mainView;
         this.model = model;
     }
 
@@ -167,11 +174,16 @@ public class OpenEventHandler implements EventHandler<ActionEvent> {
     }
 
     private void writeToTable(final String[][] tableArray) {
-        for (final String[] array : tableArray) {
-            for (final String field : array) {
-            }
+        final ObservableList<String[]> data = FXCollections.observableArrayList();
+        data.addAll(Arrays.asList(tableArray));
+        for (int i = 0; i < tableArray[0].length; i++) {
+            final TableColumn<String[], String> tc = new TableColumn<>(tableArray[0][i]);
+            final int colNo = i;
+            tc.setCellValueFactory(p -> new SimpleStringProperty((p.getValue()[colNo])));
+            tc.setPrefWidth(90);
+            this.mainView.getTableViewData().getColumns().add(tc);
         }
-
+        this.mainView.getTableViewData().setItems(data);
     }
 
 }

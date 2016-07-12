@@ -41,7 +41,7 @@ public class MainView {
     private final HBox hBoxImportData;
     private final Label labelImportData;
     private final Button buttonImportData;
-    private final TableView<String> tableViewData;
+    private final TableView<String[]> tableViewData;
 
     public MainView() {
         this.hBoxSqlServers = new HBox();
@@ -118,7 +118,7 @@ public class MainView {
         return this.splitPane;
     }
 
-    public TableView<String> getTableViewData() {
+    public TableView<String[]> getTableViewData() {
         return this.tableViewData;
     }
 
