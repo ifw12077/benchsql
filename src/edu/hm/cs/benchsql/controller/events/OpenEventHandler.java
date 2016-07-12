@@ -55,69 +55,65 @@ public class OpenEventHandler implements EventHandler<ActionEvent> {
             if (i > 0) {
                 extension = fileName.substring(i + 1);
             }
-            switch (extension) {
-                case "xlsx":
-                    try {
-                        final FileInputStream xfile = new FileInputStream(new File(fileName));
-                        final Workbook workbook = new XSSFWorkbook(xfile);
-                        this.readExcel(workbook);
-                        workbook.close();
-                        xfile.close();
-                    } catch (final FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (final IOException e) {
-                        e.printStackTrace();
-                    }
-                case "xls":
-                    try {
-                        final FileInputStream xfile = new FileInputStream(new File(fileName));
-                        final Workbook workbook = new HSSFWorkbook(xfile);
-                        this.readExcel(workbook);
-                        workbook.close();
-                        xfile.close();
-                    } catch (final FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (final IOException e) {
-                        e.printStackTrace();
-                    }
-                case "csv":
-                    try {
-                        final TextInputDialog dialog = new TextInputDialog(";");
-                        dialog.setTitle("CSV Trennzeichen");
-                        dialog.setHeaderText("Mit welchem Zeichen werden die Spalten getrennt?");
-                        dialog.setContentText("Trennzeichen:");
-                        final CSVReader csvReader;
-                        final Optional<String> result = dialog.showAndWait();
-                        if (result.isPresent()) {
-                            csvReader = new CSVReader(new FileReader(fileName), result.get().charAt(0));
-                            final Workbook workbook = new HSSFWorkbook();
-                            final CreationHelper helper = workbook.getCreationHelper();
-                            final Sheet sheet = workbook.createSheet();
-                            String[] line = csvReader.readNext();
-                            Integer rowCount = 0;
+            if ("xlsx".equals(extension)) {
+                try {
+                    final FileInputStream xfile = new FileInputStream(new File(fileName));
+                    final Workbook workbook = new XSSFWorkbook(xfile);
+                    this.readExcel(workbook);
+                    workbook.close();
+                    xfile.close();
+                } catch (final FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (final IOException e) {
+                    e.printStackTrace();
+                }
+            } else if ("xls".equals(extension)) {
+                try {
+                    final FileInputStream xfile = new FileInputStream(new File(fileName));
+                    final Workbook workbook = new HSSFWorkbook(xfile);
+                    this.readExcel(workbook);
+                    workbook.close();
+                    xfile.close();
+                } catch (final FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (final IOException e) {
+                    e.printStackTrace();
+                }
+            } else if ("csv".equals(extension)) {
+                try {
+                    final TextInputDialog dialog = new TextInputDialog(";");
+                    dialog.setTitle("CSV Trennzeichen");
+                    dialog.setHeaderText("Mit welchem Zeichen werden die Spalten getrennt?");
+                    dialog.setContentText("Trennzeichen:");
+                    final CSVReader csvReader;
+                    final Optional<String> result = dialog.showAndWait();
+                    if (result.isPresent()) {
+                        csvReader = new CSVReader(new FileReader(fileName), result.get().charAt(0));
+                        final Workbook workbook = new HSSFWorkbook();
+                        final CreationHelper helper = workbook.getCreationHelper();
+                        final Sheet sheet = workbook.createSheet();
+                        String[] line = csvReader.readNext();
+                        Integer rowCount = 0;
 
-                            while (line != null) {
-                                final Row row = sheet.createRow(rowCount);
-                                for (int j = 0; j < line.length; j++) {
-                                    row.createCell(j).setCellValue(helper.createRichTextString(line[j]));
-                                }
-                                rowCount++;
-                                line = csvReader.readNext();
+                        while (line != null) {
+                            final Row row = sheet.createRow(rowCount);
+                            for (int j = 0; j < line.length; j++) {
+                                row.createCell(j).setCellValue(helper.createRichTextString(line[j]));
                             }
-                            this.readExcel(workbook);
-                            workbook.close();
-                            csvReader.close();
+                            rowCount++;
+                            line = csvReader.readNext();
                         }
-                    } catch (final FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (final IOException e) {
-                        e.printStackTrace();
+                        this.readExcel(workbook);
+                        workbook.close();
+                        csvReader.close();
                     }
-                default:
-                    break;
+                } catch (final FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (final IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
-
     }
 
     private void readExcel(final Workbook workbook) {
