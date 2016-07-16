@@ -154,21 +154,17 @@ public class OpenEventHandler implements EventHandler<ActionEvent> {
                 final Cell cell = cellIterator.next();
                 final int cellType = cell.getCellType();
                 final int cellNumber = cell.getColumnIndex();
-                if (j == cellNumber) {
-                    if (cellType == Cell.CELL_TYPE_STRING) {
-                        excelArray[i][j] = cell.getStringCellValue();
-                    } else if (cellType == Cell.CELL_TYPE_BOOLEAN) {
-                        excelArray[i][j] = String.valueOf(cell.getBooleanCellValue());
-                    } else if (cellType == Cell.CELL_TYPE_NUMERIC) {
-                        excelArray[i][j] = String.valueOf(cell.getNumericCellValue());
-                    } else {
-                        excelArray[i][j] = "";
-                    }
+                if (cellType == Cell.CELL_TYPE_STRING) {
+                    excelArray[i][cellNumber] = cell.getStringCellValue();
+                } else if (cellType == Cell.CELL_TYPE_BOOLEAN) {
+                    excelArray[i][cellNumber] = String.valueOf(cell.getBooleanCellValue());
+                } else if (cellType == Cell.CELL_TYPE_NUMERIC) {
+                    excelArray[i][cellNumber] = String.valueOf(cell.getNumericCellValue());
+                } else {
+                    excelArray[i][cellNumber] = "";
                 }
-                j++;
             }
             i++;
-            j = 0;
         }
         this.writeToTable(excelArray);
     }
@@ -186,6 +182,7 @@ public class OpenEventHandler implements EventHandler<ActionEvent> {
             this.mainView.getTableViewData().getColumns().add(tc);
         }
         this.mainView.getTableViewData().setItems(data);
+        this.mainView.getlabelImportData().setText("Daten importiert!");
     }
 
 }

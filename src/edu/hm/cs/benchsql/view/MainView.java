@@ -114,6 +114,10 @@ public class MainView {
         return this.comboBoxSqlServers;
     }
 
+    public Label getlabelImportData() {
+        return this.labelImportData;
+    }
+
     public SplitPane getSplitPane() {
         return this.splitPane;
     }
