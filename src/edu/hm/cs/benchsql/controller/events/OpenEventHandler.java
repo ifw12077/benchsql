@@ -43,8 +43,9 @@ public class OpenEventHandler implements EventHandler<ActionEvent> {
     @Override
     public void handle(final ActionEvent event) {
         final FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Dateien (*.xlsx)", "*.xlsx"));
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel 2003 Dateien (*.xls)", "*.xls"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Arbeitsmappe (*.xlsx)", "*.xlsx"));
+        fileChooser.getExtensionFilters()
+                .add(new FileChooser.ExtensionFilter("Excel 97-2003 Arbeitsmappe (*.xls)", "*.xls"));
         fileChooser.getExtensionFilters()
                 .add(new FileChooser.ExtensionFilter("Trennzeichen getrennt (*.csv)", "*.csv"));
         final File file = fileChooser.showOpenDialog(this.model.getPrimaryStage());
@@ -152,14 +153,17 @@ public class OpenEventHandler implements EventHandler<ActionEvent> {
             while (cellIterator.hasNext()) {
                 final Cell cell = cellIterator.next();
                 final int cellType = cell.getCellType();
-                if (cellType == Cell.CELL_TYPE_STRING) {
-                    excelArray[i][j] = cell.getStringCellValue();
-                } else if (cellType == Cell.CELL_TYPE_BOOLEAN) {
-                    excelArray[i][j] = String.valueOf(cell.getBooleanCellValue());
-                } else if (cellType == Cell.CELL_TYPE_NUMERIC) {
-                    excelArray[i][j] = String.valueOf(cell.getNumericCellValue());
-                } else {
-                    excelArray[i][j] = "";
+                final int cellNumber = cell.getColumnIndex();
+                if (j == cellNumber) {
+                    if (cellType == Cell.CELL_TYPE_STRING) {
+                        excelArray[i][j] = cell.getStringCellValue();
+                    } else if (cellType == Cell.CELL_TYPE_BOOLEAN) {
+                        excelArray[i][j] = String.valueOf(cell.getBooleanCellValue());
+                    } else if (cellType == Cell.CELL_TYPE_NUMERIC) {
+                        excelArray[i][j] = String.valueOf(cell.getNumericCellValue());
+                    } else {
+                        excelArray[i][j] = "";
+                    }
                 }
                 j++;
             }
@@ -170,8 +174,10 @@ public class OpenEventHandler implements EventHandler<ActionEvent> {
     }
 
     private void writeToTable(final String[][] tableArray) {
+        this.mainView.getTableViewData().getColumns().removeAll(this.mainView.getTableViewData().getColumns());
         final ObservableList<String[]> data = FXCollections.observableArrayList();
         data.addAll(Arrays.asList(tableArray));
+        data.remove(0);
         for (int i = 0; i < tableArray[0].length; i++) {
             final TableColumn<String[], String> tc = new TableColumn<>(tableArray[0][i]);
             final int colNo = i;
