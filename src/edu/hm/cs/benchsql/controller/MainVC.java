@@ -1,7 +1,9 @@
 package edu.hm.cs.benchsql.controller;
 
 import edu.hm.cs.benchsql.controller.events.CloseEventHandler;
+import edu.hm.cs.benchsql.controller.events.ConnectEventHandler;
 import edu.hm.cs.benchsql.controller.events.OpenEventHandler;
+import edu.hm.cs.benchsql.controller.events.SaveEventHandler;
 import edu.hm.cs.benchsql.model.Model;
 import edu.hm.cs.benchsql.view.MainView;
 
@@ -20,6 +22,8 @@ public class MainVC {
         this.mainView.getSplitPane().setDividerPositions(0.0);
         this.model.getPrimaryStage().setOnCloseRequest(new CloseEventHandler(this.model, this.mainView));
         this.mainView.getButtonImportData().setOnAction(new OpenEventHandler(this.model, this.mainView));
+        this.mainView.getButtonSqlServerSave().setOnAction(new SaveEventHandler(this.model, this.mainView));
+        this.mainView.getButtonSqlServerConnect().setOnAction(new ConnectEventHandler(this.model, this.mainView));
     }
 
     public void show() {

@@ -80,7 +80,7 @@ public class MainView {
         this.hBoxSqlServerConnect.setPadding(new Insets(5));
         this.hBoxSqlServerConnect.setAlignment(Pos.CENTER);
         this.buttonSqlServerSave = new Button("Speichern");
-        this.labelSqlServerConnect = new Label("Keine Verbindung!");
+        this.labelSqlServerConnect = new Label("");
         this.buttonSqlServerConnect = new Button("Verbinden");
         this.hBoxSqlServerConnect.getChildren().addAll(this.buttonSqlServerSave, this.labelSqlServerConnect,
                 this.buttonSqlServerConnect);
@@ -89,7 +89,7 @@ public class MainView {
         this.hBoxImportData.setSpacing(10);
         this.hBoxImportData.setPadding(new Insets(5));
         this.hBoxImportData.setAlignment(Pos.CENTER);
-        this.labelImportData = new Label("Keine Daten!");
+        this.labelImportData = new Label("");
         this.buttonImportData = new Button("Daten öffnen");
         this.hBoxImportData.getChildren().addAll(this.labelImportData, this.buttonImportData);
 
@@ -104,6 +104,10 @@ public class MainView {
 
     public Button getButtonImportData() {
         return this.buttonImportData;
+    }
+
+    public Button getButtonSqlServerConnect() {
+        return this.buttonSqlServerConnect;
     }
 
     public Button getButtonSqlServerSave() {
