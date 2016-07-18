@@ -52,7 +52,7 @@ public class OpenEventHandler implements EventHandler<ActionEvent> {
         if (file != null) {
             String extension = "";
             final String fileName = file.getAbsolutePath();
-            final Integer i = fileName.lastIndexOf('.');
+            final int i = fileName.lastIndexOf('.');
             if (i > 0) {
                 extension = fileName.substring(i + 1);
             }
@@ -94,7 +94,7 @@ public class OpenEventHandler implements EventHandler<ActionEvent> {
                         final CreationHelper helper = workbook.getCreationHelper();
                         final Sheet sheet = workbook.createSheet();
                         String[] line = csvReader.readNext();
-                        Integer rowCount = 0;
+                        int rowCount = 0;
 
                         while (line != null) {
                             final Row row = sheet.createRow(rowCount);
@@ -121,9 +121,9 @@ public class OpenEventHandler implements EventHandler<ActionEvent> {
         final Sheet firstSheet = workbook.getSheetAt(0);
         Iterator<Row> iterator = firstSheet.iterator();
 
-        Integer i = 0;
-        Integer j = 0;
-        Integer cellCount = 0;
+        int i = 0;
+        int j = 0;
+        int cellCount = 0;
 
         while (iterator.hasNext()) {
             final Row nextRow = iterator.next();
@@ -152,14 +152,12 @@ public class OpenEventHandler implements EventHandler<ActionEvent> {
 
             while (cellIterator.hasNext()) {
                 final Cell cell = cellIterator.next();
+                cell.setCellType(Cell.CELL_TYPE_STRING);
                 final int cellType = cell.getCellType();
                 final int cellNumber = cell.getColumnIndex();
+                final String cellValue = cell.getStringCellValue();
                 if (cellType == Cell.CELL_TYPE_STRING) {
-                    excelArray[i][cellNumber] = cell.getStringCellValue();
-                } else if (cellType == Cell.CELL_TYPE_BOOLEAN) {
-                    excelArray[i][cellNumber] = String.valueOf(cell.getBooleanCellValue());
-                } else if (cellType == Cell.CELL_TYPE_NUMERIC) {
-                    excelArray[i][cellNumber] = String.valueOf(cell.getNumericCellValue());
+                    excelArray[i][cellNumber] = cellValue;
                 } else {
                     excelArray[i][cellNumber] = "";
                 }

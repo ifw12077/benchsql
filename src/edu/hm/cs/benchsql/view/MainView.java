@@ -90,7 +90,7 @@ public class MainView {
         this.hBoxImportData.setPadding(new Insets(5));
         this.hBoxImportData.setAlignment(Pos.CENTER);
         this.labelImportData = new Label("");
-        this.buttonImportData = new Button("Daten Ã¶ffnen");
+        this.buttonImportData = new Button("Daten öffnen");
         this.hBoxImportData.getChildren().addAll(this.labelImportData, this.buttonImportData);
 
         this.splitPane = new SplitPane();
