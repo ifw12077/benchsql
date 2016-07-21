@@ -16,18 +16,32 @@ public class ConnectEventHandler implements EventHandler<ActionEvent> {
         this.model = model;
     }
 
+    private void connectToMssql(final SqlConnection sqlConnection) {
+        // TODO Auto-generated method stub
+
+    }
+
+    private void connectToMysql(final SqlConnection sqlConnection) {
+        // TODO Auto-generated method stub
+
+    }
+
+    private void connectToSybase(final SqlConnection sqlConnection) {
+        // TODO Auto-generated method stub
+
+    }
+
     @Override
     public void handle(final ActionEvent event) {
-        this.mainView.getButtonSqlServerSave().fire();
-        final SqlConnection sqlConnection = this.model.getConnection(this.mainView.getComboBoxSqlServers().getValue());
-        try {
-            Class.forName(sqlConnection.getConnectionDriver()).newInstance();
-        } catch (final InstantiationException e) {
-            e.printStackTrace();
-        } catch (final IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (final ClassNotFoundException e) {
-            e.printStackTrace();
+        this.mainView.getButtonSave().fire();
+        final String connectionString = this.mainView.getComboBoxTypes().getValue();
+        final SqlConnection sqlConnection = this.model.getConnection(connectionString);
+        if ("MySQL".equals(connectionString)) {
+            this.connectToMysql(sqlConnection);
+        } else if ("Microsoft SQL".equals(connectionString)) {
+            this.connectToMssql(sqlConnection);
+        } else if ("SQL Anywhere".equals(connectionString)) {
+            this.connectToSybase(sqlConnection);
         }
     }
 }

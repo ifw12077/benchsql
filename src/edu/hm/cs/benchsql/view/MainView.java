@@ -21,101 +21,116 @@ public class MainView {
     private final Scene scene;
     private final SplitPane splitPane;
     private final VBox vBoxConnection;
-    private final HBox hBoxSqlServers;
-    private final Label labelSqlServers;
-    private final ComboBox<String> comboBoxSqlServers;
-    private final HBox hBoxSqlServerIpPort;
-    private final Label labelSqlServerIp;
-    private final TextField textFieldSqlServerIp;
-    private final Label labelSqlServerPort;
-    private final TextField textFieldSqlServerPort;
-    private final HBox hBoxSqlServerLogin;
-    private final Label labelSqlServerUser;
-    private final TextField textFieldSqlServerUser;
-    private final Label labelSqlServerPasswort;
-    private final TextField textFieldSqlServerPasswort;
-    private final HBox hBoxSqlServerConnect;
-    private final Button buttonSqlServerSave;
-    private final Label labelSqlServerConnect;
-    private final Button buttonSqlServerConnect;
+    private final HBox hBoxs;
+    private final Label labels;
+    private final ComboBox<String> comboBoxTypes;
+    private final HBox hBoxIpPort;
+    private final Label labelIp;
+    private final TextField textFieldIp;
+    private final Label labelPort;
+    private final TextField textFieldPort;
+    private final HBox hBoxDatabase;
+    private final Label labelInstance;
+    private final TextField textFieldInstance;
+    private final Label labelDatabase;
+    private final TextField textFieldDatabase;
+    private final HBox hBoxLogin;
+    private final Label labelUser;
+    private final TextField textFieldUser;
+    private final Label labelPasswort;
+    private final TextField textFieldPasswort;
+    private final HBox hBoxConnect;
+    private final Button buttonSave;
+    private final Label labelConnect;
+    private final Button buttonConnect;
     private final HBox hBoxImportData;
     private final Label labelImportData;
     private final Button buttonImportData;
     private final TableView<String[]> tableViewData;
 
     public MainView() {
-        this.hBoxSqlServers = new HBox();
-        this.hBoxSqlServers.setSpacing(10);
-        this.hBoxSqlServers.setPadding(new Insets(5));
-        this.hBoxSqlServers.setAlignment(Pos.CENTER);
-        this.labelSqlServers = new Label("SQL-Server Typ:");
-        this.comboBoxSqlServers = new ComboBox<>(
+        this.hBoxs = new HBox();
+        this.hBoxs.setSpacing(10);
+        this.hBoxs.setPadding(new Insets(5));
+        this.hBoxs.setAlignment(Pos.CENTER);
+        this.labels = new Label("Typ:");
+        this.comboBoxTypes = new ComboBox<>(
                 FXCollections.observableArrayList("MySQL", "Microsoft SQL", "SQL Anywhere"));
-        this.hBoxSqlServers.getChildren().addAll(this.labelSqlServers, this.comboBoxSqlServers);
+        this.hBoxs.getChildren().addAll(this.labels, this.comboBoxTypes);
 
-        this.hBoxSqlServerIpPort = new HBox();
-        this.hBoxSqlServerIpPort.setSpacing(10);
-        this.hBoxSqlServerIpPort.setPadding(new Insets(5));
-        this.hBoxSqlServerIpPort.setAlignment(Pos.CENTER);
-        this.labelSqlServerIp = new Label("SQL-Server IP/Name:");
-        this.textFieldSqlServerIp = new TextField();
-        this.labelSqlServerPort = new Label("SQL-Server Port:");
-        this.textFieldSqlServerPort = new TextField();
-        this.hBoxSqlServerIpPort.getChildren().addAll(this.labelSqlServerIp, this.textFieldSqlServerIp,
-                new Separator(Orientation.VERTICAL), this.labelSqlServerPort, this.textFieldSqlServerPort);
+        this.hBoxIpPort = new HBox();
+        this.hBoxIpPort.setSpacing(10);
+        this.hBoxIpPort.setPadding(new Insets(5));
+        this.hBoxIpPort.setAlignment(Pos.CENTER);
+        this.labelIp = new Label("IP/Name:");
+        this.textFieldIp = new TextField();
+        this.labelPort = new Label("Port:");
+        this.textFieldPort = new TextField();
+        this.hBoxIpPort.getChildren().addAll(this.labelIp, this.textFieldIp, new Separator(Orientation.VERTICAL),
+                this.labelPort, this.textFieldPort);
 
-        this.hBoxSqlServerLogin = new HBox();
-        this.hBoxSqlServerLogin.setSpacing(10);
-        this.hBoxSqlServerLogin.setPadding(new Insets(5));
-        this.hBoxSqlServerLogin.setAlignment(Pos.CENTER);
-        this.labelSqlServerUser = new Label("SQL-Server User:");
-        this.textFieldSqlServerUser = new TextField();
-        this.labelSqlServerPasswort = new Label("SQL-Server Passwort:");
-        this.textFieldSqlServerPasswort = new TextField();
-        this.hBoxSqlServerLogin.getChildren().addAll(this.labelSqlServerUser, this.textFieldSqlServerUser,
-                new Separator(Orientation.VERTICAL), this.labelSqlServerPasswort, this.textFieldSqlServerPasswort);
+        this.hBoxDatabase = new HBox();
+        this.hBoxDatabase.setSpacing(10);
+        this.hBoxDatabase.setPadding(new Insets(5));
+        this.hBoxDatabase.setAlignment(Pos.CENTER);
+        this.labelInstance = new Label("Instanz:");
+        this.textFieldInstance = new TextField();
+        this.labelDatabase = new Label("Datenbankname:");
+        this.textFieldDatabase = new TextField();
+        this.hBoxDatabase.getChildren().addAll(this.labelInstance, this.textFieldInstance,
+                new Separator(Orientation.VERTICAL), this.labelDatabase, this.textFieldDatabase);
 
-        this.hBoxSqlServerConnect = new HBox();
-        this.hBoxSqlServerConnect.setSpacing(10);
-        this.hBoxSqlServerConnect.setPadding(new Insets(5));
-        this.hBoxSqlServerConnect.setAlignment(Pos.CENTER);
-        this.buttonSqlServerSave = new Button("Speichern");
-        this.labelSqlServerConnect = new Label("");
-        this.buttonSqlServerConnect = new Button("Verbinden");
-        this.hBoxSqlServerConnect.getChildren().addAll(this.buttonSqlServerSave, this.labelSqlServerConnect,
-                this.buttonSqlServerConnect);
+        this.hBoxLogin = new HBox();
+        this.hBoxLogin.setSpacing(10);
+        this.hBoxLogin.setPadding(new Insets(5));
+        this.hBoxLogin.setAlignment(Pos.CENTER);
+        this.labelUser = new Label("User:");
+        this.textFieldUser = new TextField();
+        this.labelPasswort = new Label("Passwort:");
+        this.textFieldPasswort = new TextField();
+        this.hBoxLogin.getChildren().addAll(this.labelUser, this.textFieldUser, new Separator(Orientation.VERTICAL),
+                this.labelPasswort, this.textFieldPasswort);
+
+        this.hBoxConnect = new HBox();
+        this.hBoxConnect.setSpacing(10);
+        this.hBoxConnect.setPadding(new Insets(5));
+        this.hBoxConnect.setAlignment(Pos.CENTER);
+        this.buttonSave = new Button("Speichern");
+        this.labelConnect = new Label("");
+        this.buttonConnect = new Button("Verbinden");
+        this.hBoxConnect.getChildren().addAll(this.buttonSave, this.labelConnect, this.buttonConnect);
 
         this.hBoxImportData = new HBox();
         this.hBoxImportData.setSpacing(10);
         this.hBoxImportData.setPadding(new Insets(5));
         this.hBoxImportData.setAlignment(Pos.CENTER);
         this.labelImportData = new Label("");
-        this.buttonImportData = new Button("Daten öffnen");
+        this.buttonImportData = new Button("Daten Ã¶ffnen");
         this.hBoxImportData.getChildren().addAll(this.labelImportData, this.buttonImportData);
 
         this.splitPane = new SplitPane();
         this.vBoxConnection = new VBox();
-        this.vBoxConnection.getChildren().addAll(this.hBoxSqlServers, this.hBoxSqlServerIpPort, this.hBoxSqlServerLogin,
-                this.hBoxSqlServerConnect, new Separator(Orientation.HORIZONTAL), this.hBoxImportData);
+        this.vBoxConnection.getChildren().addAll(this.hBoxs, this.hBoxIpPort, this.hBoxDatabase, this.hBoxLogin,
+                this.hBoxConnect, new Separator(Orientation.HORIZONTAL), this.hBoxImportData);
         this.tableViewData = new TableView<>();
         this.splitPane.getItems().addAll(this.vBoxConnection, this.tableViewData);
         this.scene = new Scene(this.splitPane);
+    }
+
+    public Button getButtonConnect() {
+        return this.buttonConnect;
     }
 
     public Button getButtonImportData() {
         return this.buttonImportData;
     }
 
-    public Button getButtonSqlServerConnect() {
-        return this.buttonSqlServerConnect;
+    public Button getButtonSave() {
+        return this.buttonSave;
     }
 
-    public Button getButtonSqlServerSave() {
-        return this.buttonSqlServerSave;
-    }
-
-    public ComboBox<String> getComboBoxSqlServers() {
-        return this.comboBoxSqlServers;
+    public ComboBox<String> getComboBoxTypes() {
+        return this.comboBoxTypes;
     }
 
     public Label getlabelImportData() {
@@ -128,6 +143,30 @@ public class MainView {
 
     public TableView<String[]> getTableViewData() {
         return this.tableViewData;
+    }
+
+    public TextField getTextFieldDatabase() {
+        return this.textFieldDatabase;
+    }
+
+    public TextField getTextFieldInstance() {
+        return this.textFieldInstance;
+    }
+
+    public TextField getTextFieldIp() {
+        return this.textFieldIp;
+    }
+
+    public TextField getTextFieldPasswort() {
+        return this.textFieldPasswort;
+    }
+
+    public TextField getTextFieldPort() {
+        return this.textFieldPort;
+    }
+
+    public TextField getTextFieldUser() {
+        return this.textFieldUser;
     }
 
     public void show(final Stage primaryStage) {

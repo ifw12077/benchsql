@@ -2,21 +2,23 @@ package edu.hm.cs.benchsql.model;
 
 public class SqlConnection {
 
-    private final String connectionUrl;
     private String connectionIp;
     private String connectionPort;
+    private String connectionInstance;
+    private String connectionDatabase;
     private String connectionUser;
     private String connectionPassword;
-    private final String connectionDriver;
 
-    public SqlConnection(final String connectionUrl, final String connectionDriver) {
-        this.connectionDriver = connectionDriver;
-        this.connectionUrl = connectionUrl;
+    public SqlConnection() {
         this.initializeFields();
     }
 
-    public String getConnectionDriver() {
-        return this.connectionDriver;
+    public String getConnectionDatabase() {
+        return this.connectionDatabase;
+    }
+
+    public String getConnectionInstance() {
+        return this.connectionInstance;
     }
 
     public String getConnectionIp() {
@@ -31,10 +33,6 @@ public class SqlConnection {
         return this.connectionPort;
     }
 
-    public String getConnectionUrl() {
-        return this.connectionUrl;
-    }
-
     public String getConnectionUser() {
         return this.connectionUser;
     }
@@ -42,8 +40,18 @@ public class SqlConnection {
     private void initializeFields() {
         this.setConnectionIp("");
         this.setConnectionPort("");
+        this.setConnectionInstance("");
+        this.setConnectionDatabase("");
         this.setConnectionUser("");
         this.setConnectionPassword("");
+    }
+
+    public void setConnectionDatabase(final String connectionDatabase) {
+        this.connectionDatabase = connectionDatabase;
+    }
+
+    public void setConnectionInstance(final String connectionInstance) {
+        this.connectionInstance = connectionInstance;
     }
 
     public void setConnectionIp(final String connectionIp) {
@@ -61,5 +69,4 @@ public class SqlConnection {
     public void setConnectionUser(final String connectionUser) {
         this.connectionUser = connectionUser;
     }
-
 }

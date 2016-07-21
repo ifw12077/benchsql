@@ -10,9 +10,9 @@ public class Model {
 
     public Model(final Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.mysqlConnection = new SqlConnection("jdbc:mysql:", "com.mysql.jdbc.Driver");
-        this.mssqlConnection = new SqlConnection("jdbc:sqlserver:", "com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        this.sybaseConnection = new SqlConnection("jdbc:sqlanywhere:", "sybase.jdbc.sqlanywhere.IDriver");
+        this.mysqlConnection = new SqlConnection();
+        this.mssqlConnection = new SqlConnection();
+        this.sybaseConnection = new SqlConnection();
     }
 
     public SqlConnection getConnection(final String connection) {
@@ -21,7 +21,7 @@ public class Model {
             returnConnnection = this.mysqlConnection;
         } else if ("Microsoft SQL".equals(connection)) {
             returnConnnection = this.mssqlConnection;
-        } else {
+        } else if ("SQL Anywhere".equals(connection)) {
             returnConnnection = this.sybaseConnection;
         }
         return returnConnnection;
