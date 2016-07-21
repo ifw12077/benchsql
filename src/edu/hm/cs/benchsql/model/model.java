@@ -15,13 +15,13 @@ public class Model {
         this.sybaseConnection = new SqlConnection();
     }
 
-    public SqlConnection getConnection(final String connection) {
+    public SqlConnection getConnection(final String connectionString) {
         SqlConnection returnConnnection = null;
-        if ("MySQL".equals(connection)) {
+        if ("MySQL".equals(connectionString)) {
             returnConnnection = this.mysqlConnection;
-        } else if ("Microsoft SQL".equals(connection)) {
+        } else if ("Microsoft SQL".equals(connectionString)) {
             returnConnnection = this.mssqlConnection;
-        } else if ("SQL Anywhere".equals(connection)) {
+        } else if ("SQL Anywhere".equals(connectionString)) {
             returnConnnection = this.sybaseConnection;
         }
         return returnConnnection;

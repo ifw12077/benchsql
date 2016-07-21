@@ -16,18 +16,15 @@ public class ConnectEventHandler implements EventHandler<ActionEvent> {
         this.model = model;
     }
 
-    private void connectToMssql(final SqlConnection sqlConnection) {
-        // TODO Auto-generated method stub
+    private void connectToMsSql(final SqlConnection sqlConnection) {
 
     }
 
-    private void connectToMysql(final SqlConnection sqlConnection) {
-        // TODO Auto-generated method stub
+    private void connectToMySql(final SqlConnection sqlConnection) {
 
     }
 
     private void connectToSybase(final SqlConnection sqlConnection) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -37,9 +34,9 @@ public class ConnectEventHandler implements EventHandler<ActionEvent> {
         final String connectionString = this.mainView.getComboBoxTypes().getValue();
         final SqlConnection sqlConnection = this.model.getConnection(connectionString);
         if ("MySQL".equals(connectionString)) {
-            this.connectToMysql(sqlConnection);
+            this.connectToMySql(sqlConnection);
         } else if ("Microsoft SQL".equals(connectionString)) {
-            this.connectToMssql(sqlConnection);
+            this.connectToMsSql(sqlConnection);
         } else if ("SQL Anywhere".equals(connectionString)) {
             this.connectToSybase(sqlConnection);
         }
