@@ -16,15 +16,25 @@ public class Model {
     }
 
     public SqlConnection getConnection(final String connectionString) {
-        SqlConnection returnConnnection = null;
-        if ("MySQL".equals(connectionString)) {
-            returnConnnection = this.mysqlConnection;
-        } else if ("Microsoft SQL".equals(connectionString)) {
-            returnConnnection = this.mssqlConnection;
-        } else if ("SQL Anywhere".equals(connectionString)) {
-            returnConnnection = this.sybaseConnection;
+        switch (connectionString) {
+            case "MySQL":
+                return this.mysqlConnection;
+            case "Microsoft SQL":
+                return this.mssqlConnection;
+            case "SQL Anywhere":
+                return this.sybaseConnection;
+            default:
+                return null;
         }
-        return returnConnnection;
+        // SqlConnection returnConnnection = null;
+        // if ("MySQL".equals(connectionString)) {
+        // returnConnnection = this.mysqlConnection;
+        // } else if ("Microsoft SQL".equals(connectionString)) {
+        // returnConnnection = this.mssqlConnection;
+        // } else if ("SQL Anywhere".equals(connectionString)) {
+        // returnConnnection = this.sybaseConnection;
+        // }
+        // return returnConnnection;
     }
 
     public Stage getPrimaryStage() {
