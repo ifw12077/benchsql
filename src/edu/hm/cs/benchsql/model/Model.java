@@ -26,15 +26,6 @@ public class Model {
             default:
                 return null;
         }
-        // SqlConnection returnConnnection = null;
-        // if ("MySQL".equals(connectionString)) {
-        // returnConnnection = this.mysqlConnection;
-        // } else if ("Microsoft SQL".equals(connectionString)) {
-        // returnConnnection = this.mssqlConnection;
-        // } else if ("SQL Anywhere".equals(connectionString)) {
-        // returnConnnection = this.sybaseConnection;
-        // }
-        // return returnConnnection;
     }
 
     public Stage getPrimaryStage() {

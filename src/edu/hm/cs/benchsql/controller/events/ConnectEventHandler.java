@@ -1,5 +1,9 @@
 package edu.hm.cs.benchsql.controller.events;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 import edu.hm.cs.benchsql.model.Model;
 import edu.hm.cs.benchsql.model.SqlConnection;
 import edu.hm.cs.benchsql.view.MainView;
@@ -16,15 +20,24 @@ public class ConnectEventHandler implements EventHandler<ActionEvent> {
         this.model = model;
     }
 
-    private void connectToMsSql(final SqlConnection sqlConnection) {
+    private void connectToMsSql(final SqlConnection mssql) {
 
     }
 
-    private void connectToMySql(final SqlConnection sqlConnection) {
+    private void connectToMySql(final SqlConnection mysql) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            final Connection connect = DriverManager.getConnection(
+                    "jdbc:mysql://" + mysql.getIp() + ":" + mysql.getPort() + "/" + mysql.getDatabase(),
+                    mysql.getUser(), mysql.getPassword());
+            connect.createStatement();
+        } catch (final ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
-    private void connectToSybase(final SqlConnection sqlConnection) {
+    private void connectToSybase(final SqlConnection sybase) {
 
     }
 

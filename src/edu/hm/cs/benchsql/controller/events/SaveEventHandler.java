@@ -19,12 +19,12 @@ public class SaveEventHandler implements EventHandler<ActionEvent> {
     @Override
     public void handle(final ActionEvent event) {
         final SqlConnection sqlConnection = this.model.getConnection(this.mainView.getComboBoxTypes().getValue());
-        sqlConnection.setConnectionIp(this.mainView.getTextFieldIp().getText());
-        sqlConnection.setConnectionPort(this.mainView.getTextFieldPort().getText());
-        sqlConnection.setConnectionInstance(this.mainView.getTextFieldInstance().getText());
-        sqlConnection.setConnectionDatabase(this.mainView.getTextFieldDatabase().getText());
-        sqlConnection.setConnectionUser(this.mainView.getTextFieldUser().getText());
-        sqlConnection.setConnectionPassword(this.mainView.getTextFieldPasswort().getText());
+        sqlConnection.setIp(this.mainView.getTextFieldIp().getText());
+        sqlConnection.setPort(this.mainView.getTextFieldPort().getText());
+        sqlConnection.setInstance(this.mainView.getTextFieldInstance().getText());
+        sqlConnection.setDatabase(this.mainView.getTextFieldDatabase().getText());
+        sqlConnection.setUser(this.mainView.getTextFieldUser().getText());
+        sqlConnection.setPassword(this.mainView.getTextFieldPasswort().getText());
     }
 
 }

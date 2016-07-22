@@ -2,71 +2,71 @@ package edu.hm.cs.benchsql.model;
 
 public class SqlConnection {
 
-    private String connectionIp;
-    private String connectionPort;
-    private String connectionInstance;
-    private String connectionDatabase;
-    private String connectionUser;
-    private String connectionPassword;
+    private String ip;
+    private String port;
+    private String instance;
+    private String database;
+    private String user;
+    private String password;
 
     public SqlConnection() {
         this.initializeFields();
     }
 
-    public String getConnectionDatabase() {
-        return this.connectionDatabase;
+    public String getDatabase() {
+        return this.database;
     }
 
-    public String getConnectionInstance() {
-        return this.connectionInstance;
+    public String getInstance() {
+        return this.instance;
     }
 
-    public String getConnectionIp() {
-        return this.connectionIp;
+    public String getIp() {
+        return this.ip;
     }
 
-    public String getConnectionPassword() {
-        return this.connectionPassword;
+    public String getPassword() {
+        return this.password;
     }
 
-    public String getConnectionPort() {
-        return this.connectionPort;
+    public String getPort() {
+        return this.port;
     }
 
-    public String getConnectionUser() {
-        return this.connectionUser;
+    public String getUser() {
+        return this.user;
     }
 
     private void initializeFields() {
-        this.setConnectionIp("");
-        this.setConnectionPort("");
-        this.setConnectionInstance("");
-        this.setConnectionDatabase("");
-        this.setConnectionUser("");
-        this.setConnectionPassword("");
+        this.setIp("");
+        this.setPort("");
+        this.setInstance("");
+        this.setDatabase("");
+        this.setUser("");
+        this.setPassword("");
     }
 
-    public void setConnectionDatabase(final String connectionDatabase) {
-        this.connectionDatabase = connectionDatabase;
+    public void setDatabase(final String Database) {
+        this.database = Database;
     }
 
-    public void setConnectionInstance(final String connectionInstance) {
-        this.connectionInstance = connectionInstance;
+    public void setInstance(final String Instance) {
+        this.instance = Instance;
     }
 
-    public void setConnectionIp(final String connectionIp) {
-        this.connectionIp = connectionIp;
+    public void setIp(final String Ip) {
+        this.ip = Ip;
     }
 
-    public void setConnectionPassword(final String connectionPassword) {
-        this.connectionPassword = connectionPassword;
+    public void setPassword(final String Password) {
+        this.password = Password;
     }
 
-    public void setConnectionPort(final String connectionPort) {
-        this.connectionPort = connectionPort;
+    public void setPort(final String Port) {
+        this.port = Port;
     }
 
-    public void setConnectionUser(final String connectionUser) {
-        this.connectionUser = connectionUser;
+    public void setUser(final String User) {
+        this.user = User;
     }
 }
