@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.Separator;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableView;
@@ -38,7 +39,7 @@ public class MainView {
     private final Label labelUser;
     private final TextField textFieldUser;
     private final Label labelPasswort;
-    private final TextField textFieldPasswort;
+    private final PasswordField passwordFieldPasswort;
     private final HBox hBoxConnect;
     private final Button buttonSave;
     private final Label labelConnect;
@@ -87,9 +88,9 @@ public class MainView {
         this.labelUser = new Label("User:");
         this.textFieldUser = new TextField();
         this.labelPasswort = new Label("Passwort:");
-        this.textFieldPasswort = new TextField();
+        this.passwordFieldPasswort = new PasswordField();
         this.hBoxLogin.getChildren().addAll(this.labelUser, this.textFieldUser, new Separator(Orientation.VERTICAL),
-                this.labelPasswort, this.textFieldPasswort);
+                this.labelPasswort, this.passwordFieldPasswort);
 
         this.hBoxConnect = new HBox();
         this.hBoxConnect.setSpacing(10);
@@ -137,6 +138,10 @@ public class MainView {
         return this.labelImportData;
     }
 
+    public PasswordField getPasswordFieldPasswort() {
+        return this.passwordFieldPasswort;
+    }
+
     public SplitPane getSplitPane() {
         return this.splitPane;
     }
@@ -155,10 +160,6 @@ public class MainView {
 
     public TextField getTextFieldIp() {
         return this.textFieldIp;
-    }
-
-    public TextField getTextFieldPasswort() {
-        return this.textFieldPasswort;
     }
 
     public TextField getTextFieldPort() {

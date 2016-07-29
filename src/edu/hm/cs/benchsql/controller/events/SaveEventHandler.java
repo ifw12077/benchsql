@@ -24,7 +24,7 @@ public class SaveEventHandler implements EventHandler<ActionEvent> {
         sqlConnection.setInstance(this.mainView.getTextFieldInstance().getText());
         sqlConnection.setDatabase(this.mainView.getTextFieldDatabase().getText());
         sqlConnection.setUser(this.mainView.getTextFieldUser().getText());
-        sqlConnection.setPassword(this.mainView.getTextFieldPasswort().getText());
+        sqlConnection.setPassword(this.mainView.getPasswordFieldPasswort().getText());
     }
 
 }

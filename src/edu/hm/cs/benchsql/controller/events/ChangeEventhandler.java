@@ -24,7 +24,7 @@ public class ChangeEventhandler implements EventHandler<ActionEvent> {
         this.mainView.getTextFieldInstance().setText(sqlConnection.getInstance());
         this.mainView.getTextFieldDatabase().setText(sqlConnection.getDatabase());
         this.mainView.getTextFieldUser().setText(sqlConnection.getUser());
-        this.mainView.getTextFieldPasswort().setText(sqlConnection.getPassword());
+        this.mainView.getPasswordFieldPasswort().setText(sqlConnection.getPassword());
     }
 
 }

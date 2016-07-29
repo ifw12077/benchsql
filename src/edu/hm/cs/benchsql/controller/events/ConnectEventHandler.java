@@ -2,7 +2,9 @@ package edu.hm.cs.benchsql.controller.events;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import edu.hm.cs.benchsql.model.Model;
 import edu.hm.cs.benchsql.model.SqlConnection;
@@ -27,10 +29,13 @@ public class ConnectEventHandler implements EventHandler<ActionEvent> {
     private void connectToMySql(final SqlConnection mysql) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            final Connection connect = DriverManager.getConnection(
-                    "jdbc:mysql://" + mysql.getIp() + ":" + mysql.getPort() + "/" + mysql.getDatabase(),
-                    mysql.getUser(), mysql.getPassword());
-            connect.createStatement();
+            final Connection connect = DriverManager.getConnection("jdbc:mysql://" + mysql.getIp() + ":"
+                    + mysql.getPort() + "/" + mysql.getDatabase() + "?useSSL=false", mysql.getUser(),
+                    mysql.getPassword());
+            final Statement statement = connect.createStatement();
+            final ResultSet resultSet = statement
+                    .executeQuery("SELECT profiletypecode FROM devfederico.pri_profiletype");
+            this.write(resultSet);
         } catch (final ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
@@ -52,6 +57,13 @@ public class ConnectEventHandler implements EventHandler<ActionEvent> {
             this.connectToMsSql(sqlConnection);
         } else if ("SQL Anywhere".equals(connectionString)) {
             this.connectToSybase(sqlConnection);
+        }
+    }
+
+    private void write(final ResultSet resultSet) throws SQLException {
+        while (resultSet.next()) {
+            final String profiletypecode = resultSet.getString("profiletypecode");
+            System.out.println("profiletypecode: " + profiletypecode);
         }
     }
 }
