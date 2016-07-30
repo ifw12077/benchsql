@@ -18,7 +18,7 @@ public class SaveEventHandler implements EventHandler<ActionEvent> {
 
     @Override
     public void handle(final ActionEvent event) {
-        final SqlConnection sqlConnection = this.model.getConnection(this.mainView.getComboBoxTypes().getValue());
+        final SqlConnection sqlConnection = this.model.getSqlConnection(this.mainView.getComboBoxTypes().getValue());
         sqlConnection.setIp(this.mainView.getTextFieldIp().getText());
         sqlConnection.setPort(this.mainView.getTextFieldPort().getText());
         sqlConnection.setInstance(this.mainView.getTextFieldInstance().getText());

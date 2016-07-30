@@ -20,7 +20,11 @@ public class Model {
         return this.connectedTo;
     }
 
-    public SqlConnection getConnection(final String connectionString) {
+    public Stage getPrimaryStage() {
+        return this.primaryStage;
+    }
+
+    public SqlConnection getSqlConnection(final String connectionString) {
         switch (connectionString) {
             case "MySQL":
                 return this.mysqlConnection;
@@ -31,10 +35,6 @@ public class Model {
             default:
                 return null;
         }
-    }
-
-    public Stage getPrimaryStage() {
-        return this.primaryStage;
     }
 
     public void setConnectedTo(final String connectedTo) {

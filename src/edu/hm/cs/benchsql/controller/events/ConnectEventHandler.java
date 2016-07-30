@@ -91,7 +91,7 @@ public class ConnectEventHandler implements EventHandler<ActionEvent> {
     public void handle(final ActionEvent event) {
         this.mainView.getButtonSave().fire();
         final String connectionString = this.mainView.getComboBoxTypes().getValue();
-        final SqlConnection sqlConnection = this.model.getConnection(connectionString);
+        final SqlConnection sqlConnection = this.model.getSqlConnection(connectionString);
         if ("MySQL".equals(connectionString)) {
             this.connectToMySql(sqlConnection);
         } else if ("Microsoft SQL".equals(connectionString)) {
