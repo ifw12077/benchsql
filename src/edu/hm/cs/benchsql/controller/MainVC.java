@@ -1,7 +1,6 @@
 package edu.hm.cs.benchsql.controller;
 
 import edu.hm.cs.benchsql.controller.events.ChangeEventhandler;
-import edu.hm.cs.benchsql.controller.events.CloseEventHandler;
 import edu.hm.cs.benchsql.controller.events.ConnectEventHandler;
 import edu.hm.cs.benchsql.controller.events.OpenEventHandler;
 import edu.hm.cs.benchsql.controller.events.SaveEventHandler;
@@ -20,8 +19,6 @@ public class MainVC {
     }
 
     private void setOnAction() {
-        this.mainView.getSplitPane().setDividerPositions(0.0);
-        this.model.getPrimaryStage().setOnCloseRequest(new CloseEventHandler(this.model, this.mainView));
         this.mainView.getButtonImportData().setOnAction(new OpenEventHandler(this.model, this.mainView));
         this.mainView.getButtonSave().setOnAction(new SaveEventHandler(this.model, this.mainView));
         this.mainView.getButtonConnect().setOnAction(new ConnectEventHandler(this.model, this.mainView));

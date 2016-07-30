@@ -7,12 +7,17 @@ public class Model {
     private final SqlConnection mysqlConnection;
     private final SqlConnection mssqlConnection;
     private final SqlConnection sybaseConnection;
+    private String connectedTo;
 
     public Model(final Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.mysqlConnection = new SqlConnection();
         this.mssqlConnection = new SqlConnection();
         this.sybaseConnection = new SqlConnection();
+    }
+
+    public String getConnectedTo() {
+        return this.connectedTo;
     }
 
     public SqlConnection getConnection(final String connectionString) {
@@ -30,5 +35,9 @@ public class Model {
 
     public Stage getPrimaryStage() {
         return this.primaryStage;
+    }
+
+    public void setConnectedTo(final String connectedTo) {
+        this.connectedTo = connectedTo;
     }
 }

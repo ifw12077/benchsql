@@ -48,6 +48,9 @@ public class MainView {
     private final Label labelImportData;
     private final Button buttonImportData;
     private final TableView<String[]> tableViewData;
+    private final HBox hBoxImportAs;
+    private final Label labelImportAs;
+    private final ComboBox<String> comboBoxImportAs;
 
     public MainView() {
         this.hBoxs = new HBox();
@@ -109,10 +112,19 @@ public class MainView {
         this.buttonImportData = new Button("Daten öffnen");
         this.hBoxImportData.getChildren().addAll(this.labelImportData, this.buttonImportData);
 
+        this.hBoxImportAs = new HBox();
+        this.hBoxImportAs.setSpacing(10);
+        this.hBoxImportAs.setPadding(new Insets(5));
+        this.hBoxImportAs.setAlignment(Pos.CENTER);
+        this.labelImportAs = new Label("Importieren als:");
+        this.comboBoxImportAs = new ComboBox<>();
+        this.hBoxImportAs.getChildren().addAll(this.labelImportAs, this.comboBoxImportAs);
+
         this.splitPane = new SplitPane();
         this.vBoxConnection = new VBox();
         this.vBoxConnection.getChildren().addAll(this.hBoxs, this.hBoxIpPort, this.hBoxDatabase, this.hBoxLogin,
-                this.hBoxConnect, new Separator(Orientation.HORIZONTAL), this.hBoxImportData);
+                this.hBoxConnect, new Separator(Orientation.HORIZONTAL), this.hBoxImportData,
+                new Separator(Orientation.HORIZONTAL), this.hBoxImportAs);
         this.tableViewData = new TableView<>();
         this.splitPane.getItems().addAll(this.vBoxConnection, this.tableViewData);
         this.scene = new Scene(this.splitPane);
@@ -130,8 +142,16 @@ public class MainView {
         return this.buttonSave;
     }
 
+    public ComboBox<String> getComboBoxImportAs() {
+        return this.comboBoxImportAs;
+    }
+
     public ComboBox<String> getComboBoxTypes() {
         return this.comboBoxTypes;
+    }
+
+    public Label getLabelConnect() {
+        return this.labelConnect;
     }
 
     public Label getlabelImportData() {
@@ -171,9 +191,10 @@ public class MainView {
     }
 
     public void show(final Stage primaryStage) {
+        primaryStage.setMaximized(true);
         primaryStage.setTitle("benchSQL");
         primaryStage.setScene(this.scene);
-        primaryStage.setMaximized(true);
         primaryStage.show();
+        this.splitPane.setDividerPosition(0, 0.2687723480333731);
     }
 }
