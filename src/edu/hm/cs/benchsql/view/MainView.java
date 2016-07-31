@@ -52,6 +52,10 @@ public class MainView {
     private final HBox hBoxImportAs;
     private final Label labelImportAs;
     private final ComboBox<String> comboBoxImportAs;
+    private final HBox hBoxImport;
+    private final Label labelImport;
+    private final TextField textFieldImport;
+    private final Button buttonImport;
 
     public MainView() {
         this.hBoxs = new HBox();
@@ -123,11 +127,20 @@ public class MainView {
         this.hBoxImportAs.getChildren().addAll(this.labelImportAs, this.comboBoxImportAs);
         this.tableViewImportAs = new TableView<>();
 
+        this.hBoxImport = new HBox();
+        this.hBoxImport.setSpacing(10);
+        this.hBoxImport.setPadding(new Insets(5));
+        this.hBoxImport.setAlignment(Pos.CENTER);
+        this.labelImport = new Label("Anzahl Datensätze:");
+        this.textFieldImport = new TextField();
+        this.buttonImport = new Button("Importieren");
+        this.hBoxImport.getChildren().addAll(this.labelImport, this.textFieldImport, this.buttonImport);
+
         this.splitPane = new SplitPane();
         this.vBoxConnection = new VBox();
         this.vBoxConnection.getChildren().addAll(this.hBoxs, this.hBoxIpPort, this.hBoxDatabase, this.hBoxLogin,
                 this.hBoxConnect, new Separator(Orientation.HORIZONTAL), this.hBoxImportData,
-                new Separator(Orientation.HORIZONTAL), this.hBoxImportAs, this.tableViewImportAs);
+                new Separator(Orientation.HORIZONTAL), this.hBoxImportAs, this.tableViewImportAs, this.hBoxImport);
         this.tableViewData = new TableView<>();
         this.splitPane.getItems().addAll(this.vBoxConnection, this.tableViewData);
         this.scene = new Scene(this.splitPane);
@@ -135,6 +148,10 @@ public class MainView {
 
     public Button getButtonConnect() {
         return this.buttonConnect;
+    }
+
+    public Button getButtonImport() {
+        return this.buttonImport;
     }
 
     public Button getButtonImportData() {

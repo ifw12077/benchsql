@@ -3,6 +3,7 @@ package edu.hm.cs.benchsql.controller;
 import edu.hm.cs.benchsql.controller.events.ChangeImportEventhandler;
 import edu.hm.cs.benchsql.controller.events.ChangeServerEventhandler;
 import edu.hm.cs.benchsql.controller.events.ConnectEventHandler;
+import edu.hm.cs.benchsql.controller.events.ImportEventHandler;
 import edu.hm.cs.benchsql.controller.events.OpenEventHandler;
 import edu.hm.cs.benchsql.controller.events.SaveEventHandler;
 import edu.hm.cs.benchsql.model.Model;
@@ -25,6 +26,7 @@ public class MainVC {
         this.mainView.getButtonConnect().setOnAction(new ConnectEventHandler(this.model, this.mainView));
         this.mainView.getComboBoxTypes().setOnAction(new ChangeServerEventhandler(this.model, this.mainView));
         this.mainView.getComboBoxImportAs().setOnAction(new ChangeImportEventhandler(this.model, this.mainView));
+        this.mainView.getButtonImport().setOnAction(new ImportEventHandler(this.model, this.mainView));
     }
 
     public void show() {
