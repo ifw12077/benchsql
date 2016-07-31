@@ -179,8 +179,10 @@ public class OpenEventHandler implements EventHandler<ActionEvent> {
             tc.setPrefWidth(90);
             this.mainView.getTableViewData().getColumns().add(tc);
         }
+        this.model.setTableDataColumns(tableArray[0]);
         this.mainView.getTableViewData().setItems(data);
         this.mainView.getlabelImportData().setText("Daten importiert!");
+        this.mainView.getComboBoxImportAs().setDisable(false);
     }
 
 }

@@ -8,6 +8,7 @@ public class Model {
     private final SqlConnection mssqlConnection;
     private final SqlConnection sybaseConnection;
     private String connectedTo;
+    private String[] tableDataColumns;
 
     public Model(final Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -37,7 +38,15 @@ public class Model {
         }
     }
 
+    public String[] getTableDataColumns() {
+        return this.tableDataColumns;
+    }
+
     public void setConnectedTo(final String connectedTo) {
         this.connectedTo = connectedTo;
+    }
+
+    public void setTableDataColumns(final String[] tableDataColumns) {
+        this.tableDataColumns = tableDataColumns;
     }
 }

@@ -48,6 +48,7 @@ public class MainView {
     private final Label labelImportData;
     private final Button buttonImportData;
     private final TableView<String[]> tableViewData;
+    private final TableView<String[]> tableViewImportAs;
     private final HBox hBoxImportAs;
     private final Label labelImportAs;
     private final ComboBox<String> comboBoxImportAs;
@@ -118,13 +119,15 @@ public class MainView {
         this.hBoxImportAs.setAlignment(Pos.CENTER);
         this.labelImportAs = new Label("Importieren als:");
         this.comboBoxImportAs = new ComboBox<>();
+        this.comboBoxImportAs.setDisable(true);
         this.hBoxImportAs.getChildren().addAll(this.labelImportAs, this.comboBoxImportAs);
+        this.tableViewImportAs = new TableView<>();
 
         this.splitPane = new SplitPane();
         this.vBoxConnection = new VBox();
         this.vBoxConnection.getChildren().addAll(this.hBoxs, this.hBoxIpPort, this.hBoxDatabase, this.hBoxLogin,
                 this.hBoxConnect, new Separator(Orientation.HORIZONTAL), this.hBoxImportData,
-                new Separator(Orientation.HORIZONTAL), this.hBoxImportAs);
+                new Separator(Orientation.HORIZONTAL), this.hBoxImportAs, this.tableViewImportAs);
         this.tableViewData = new TableView<>();
         this.splitPane.getItems().addAll(this.vBoxConnection, this.tableViewData);
         this.scene = new Scene(this.splitPane);
