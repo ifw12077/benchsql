@@ -19,12 +19,14 @@ public class ChangeServerEventhandler implements EventHandler<ActionEvent> {
     @Override
     public void handle(final ActionEvent event) {
         final SqlConnection sqlConnection = this.model.getSqlConnection(this.mainView.getComboBoxTypes().getValue());
-        this.mainView.getTextFieldIp().setText(sqlConnection.getIp());
-        this.mainView.getTextFieldPort().setText(sqlConnection.getPort());
-        this.mainView.getTextFieldInstance().setText(sqlConnection.getInstance());
-        this.mainView.getTextFieldDatabase().setText(sqlConnection.getDatabase());
-        this.mainView.getTextFieldUser().setText(sqlConnection.getUser());
-        this.mainView.getPasswordFieldPasswort().setText(sqlConnection.getPassword());
+        if (sqlConnection != null) {
+            this.mainView.getTextFieldIp().setText(sqlConnection.getIp());
+            this.mainView.getTextFieldPort().setText(sqlConnection.getPort());
+            this.mainView.getTextFieldInstance().setText(sqlConnection.getInstance());
+            this.mainView.getTextFieldDatabase().setText(sqlConnection.getDatabase());
+            this.mainView.getTextFieldUser().setText(sqlConnection.getUser());
+            this.mainView.getPasswordFieldPasswort().setText(sqlConnection.getPassword());
+        }
     }
 
 }

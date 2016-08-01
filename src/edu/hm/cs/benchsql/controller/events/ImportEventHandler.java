@@ -20,5 +20,4 @@ public class ImportEventHandler implements EventHandler<ActionEvent> {
         this.model.getClass();
         this.mainView.getButtonConnect();
     }
-
 }

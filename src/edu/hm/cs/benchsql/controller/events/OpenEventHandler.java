@@ -21,6 +21,7 @@ import com.opencsv.CSVReader;
 
 import edu.hm.cs.benchsql.model.Model;
 import edu.hm.cs.benchsql.view.MainView;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -168,21 +169,29 @@ public class OpenEventHandler implements EventHandler<ActionEvent> {
     }
 
     private void writeToTable(final String[][] tableArray) {
-        this.mainView.getTableViewData().getColumns().removeAll(this.mainView.getTableViewData().getColumns());
-        final ObservableList<String[]> data = FXCollections.observableArrayList();
-        data.addAll(Arrays.asList(tableArray));
-        data.remove(0);
-        for (int i = 0; i < tableArray[0].length; i++) {
-            final TableColumn<String[], String> tc = new TableColumn<>(tableArray[0][i]);
-            final int colNo = i;
-            tc.setCellValueFactory(p -> new SimpleStringProperty((p.getValue()[colNo])));
-            tc.setPrefWidth(90);
-            this.mainView.getTableViewData().getColumns().add(tc);
-        }
-        this.model.setTableDataColumns(tableArray[0]);
-        this.mainView.getTableViewData().setItems(data);
-        this.mainView.getlabelImportData().setText("Daten importiert!");
-        this.mainView.getComboBoxImportAs().setDisable(false);
+        final Thread thread = new Thread() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> OpenEventHandler.this.mainView.getTableViewData().getColumns()
+                        .removeAll(OpenEventHandler.this.mainView.getTableViewData().getColumns()));
+                final ObservableList<String[]> data = FXCollections.observableArrayList();
+                data.addAll(Arrays.asList(tableArray));
+                data.remove(0);
+                for (int i = 0; i < tableArray[0].length; i++) {
+                    final TableColumn<String[], String> tc = new TableColumn<>(tableArray[0][i]);
+                    final int colNo = i;
+                    tc.setCellValueFactory(p -> new SimpleStringProperty((p.getValue()[colNo])));
+                    tc.setPrefWidth(90);
+                    Platform.runLater(() -> OpenEventHandler.this.mainView.getTableViewData().getColumns().add(tc));
+                }
+                OpenEventHandler.this.model.setTableDataColumns(tableArray[0]);
+                Platform.runLater(() -> OpenEventHandler.this.mainView.getTableViewData().setItems(data));
+                Platform.runLater(
+                        () -> OpenEventHandler.this.mainView.getlabelImportData().setText("Daten importiert!"));
+                Platform.runLater(() -> OpenEventHandler.this.mainView.getComboBoxImportAs().setDisable(false));
+            }
+        };
+        thread.start();
     }
 
 }

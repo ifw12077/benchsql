@@ -17,7 +17,7 @@ public class ChangeImportEventhandler implements EventHandler<ActionEvent> {
 
     @Override
     public void handle(final ActionEvent event) {
-        this.model.getClass();
-        this.mainView.getButtonConnect();
+        /* final String connectionString = */this.mainView.getComboBoxImportAs().getValue();
+        /* final SqlConnection sqlConnection = */this.model.getSqlConnection(this.model.getConnectedTo());
     }
 }
