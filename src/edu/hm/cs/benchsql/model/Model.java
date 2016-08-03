@@ -3,6 +3,7 @@ package edu.hm.cs.benchsql.model;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javafx.stage.Stage;
 
@@ -12,10 +13,15 @@ public class Model {
     private final SqlConnection mssqlConnection;
     private final SqlConnection sybaseConnection;
     private String connectedTo;
-    private String[] tableDataColumns;
+    private final ArrayList<String> tableDataHeader;
+    private final ArrayList<String> profileTypeCodes;
+    private final ArrayList<String> propGrpPropAttributeCodes;
 
     public Model(final Stage primaryStage) {
         this.primaryStage = primaryStage;
+        this.profileTypeCodes = new ArrayList<>();
+        this.propGrpPropAttributeCodes = new ArrayList<>();
+        this.tableDataHeader = new ArrayList<>();
         this.mysqlConnection = new SqlConnection();
         this.mssqlConnection = new SqlConnection();
         this.sybaseConnection = new SqlConnection();
@@ -56,6 +62,14 @@ public class Model {
         return this.primaryStage;
     }
 
+    public ArrayList<String> getProfileTypeCodes() {
+        return this.profileTypeCodes;
+    }
+
+    public ArrayList<String> getPropGrpPropAttributeCodes() {
+        return this.propGrpPropAttributeCodes;
+    }
+
     public SqlConnection getSqlConnection(final String connectionString) {
         switch (connectionString) {
             case "MySQL":
@@ -69,15 +83,11 @@ public class Model {
         }
     }
 
-    public String[] getTableDataColumns() {
-        return this.tableDataColumns;
+    public ArrayList<String> getTableDataHeader() {
+        return this.tableDataHeader;
     }
 
     public void setConnectedTo(final String connectedTo) {
         this.connectedTo = connectedTo;
-    }
-
-    public void setTableDataColumns(final String[] tableDataColumns) {
-        this.tableDataColumns = tableDataColumns;
     }
 }

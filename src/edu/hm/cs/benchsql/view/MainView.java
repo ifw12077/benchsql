@@ -190,6 +190,10 @@ public class MainView {
         return this.tableViewData;
     }
 
+    public TableView<String[]> getTableViewImportAs() {
+        return this.tableViewImportAs;
+    }
+
     public TextField getTextFieldDatabase() {
         return this.textFieldDatabase;
     }

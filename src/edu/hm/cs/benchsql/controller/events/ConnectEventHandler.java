@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 import edu.hm.cs.benchsql.model.Model;
 import edu.hm.cs.benchsql.view.MainView;
@@ -25,11 +24,13 @@ public class ConnectEventHandler implements EventHandler<ActionEvent> {
     public void handle(final ActionEvent event) {
         this.mainView.getButtonSave().fire();
         final String connectionString = this.mainView.getComboBoxTypes().getValue();
+
         try {
             this.loadProfileTypeCodes(this.model.getConnection(connectionString));
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
+
         if ("MySQL".equals(connectionString)) {
             this.model.setConnectedTo("MySQL");
         } else if ("Microsoft SQL".equals(connectionString)) {
@@ -46,7 +47,9 @@ public class ConnectEventHandler implements EventHandler<ActionEvent> {
         try {
             statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT profiletypecode FROM pri_profiletype");
-            this.write(resultSet);
+            while (resultSet.next()) {
+                this.model.getProfileTypeCodes().add(resultSet.getString("profiletypecode"));
+            }
         } catch (final SQLException e) {
             e.printStackTrace();
         } finally {
@@ -71,20 +74,6 @@ public class ConnectEventHandler implements EventHandler<ActionEvent> {
                     e.printStackTrace();
                 }
             }
-        }
-    }
-
-    private void write(final ResultSet resultSet) {
-        final ArrayList<String> profiletypecodes = new ArrayList<>();
-        try {
-            while (resultSet.next()) {
-                profiletypecodes.add(resultSet.getString("profiletypecode"));
-            }
-        } catch (final SQLException e) {
-            e.printStackTrace();
-        }
-        for (final String string : profiletypecodes) {
-            this.mainView.getComboBoxImportAs().getItems().add(string);
         }
     }
 }

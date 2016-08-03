@@ -184,7 +184,9 @@ public class OpenEventHandler implements EventHandler<ActionEvent> {
                     tc.setPrefWidth(90);
                     Platform.runLater(() -> OpenEventHandler.this.mainView.getTableViewData().getColumns().add(tc));
                 }
-                OpenEventHandler.this.model.setTableDataColumns(tableArray[0]);
+                for (final String header : tableArray[0]) {
+                    OpenEventHandler.this.model.getTableDataHeader().add(header);
+                }
                 Platform.runLater(() -> OpenEventHandler.this.mainView.getTableViewData().setItems(data));
                 Platform.runLater(
                         () -> OpenEventHandler.this.mainView.getlabelImportData().setText("Daten importiert!"));

@@ -1,5 +1,10 @@
 package edu.hm.cs.benchsql.controller.events;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import edu.hm.cs.benchsql.model.Model;
 import edu.hm.cs.benchsql.view.MainView;
 import javafx.event.ActionEvent;
@@ -17,7 +22,50 @@ public class ChangeImportEventhandler implements EventHandler<ActionEvent> {
 
     @Override
     public void handle(final ActionEvent event) {
-        /* final String connectionString = */this.mainView.getComboBoxImportAs().getValue();
-        /* final SqlConnection sqlConnection = */this.model.getSqlConnection(this.model.getConnectedTo());
+        try {
+            this.loadPropGrpPropAttributeCodes(this.model.getConnection(this.model.getConnectedTo()));
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadPropGrpPropAttributeCodes(final Connection connection) {
+        Statement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(
+                    "SELECT propgrppropattributecode FROM v_pri_propgrppropattributecode where propertygroupid = (select propertygroupid from pri_propertygroupprofiletype where profiletypeid = (Select profiletypeid from pri_profiletype where profiletypecode = '"
+                            + this.mainView.getComboBoxImportAs().getValue()
+                            + "')) order by propgrppropattributecode asc");
+            while (resultSet.next()) {
+                this.model.getPropGrpPropAttributeCodes().add(resultSet.getString("propgrppropattributecode"));
+            }
+        } catch (final SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (final SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (final SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (final SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
     }
 }
