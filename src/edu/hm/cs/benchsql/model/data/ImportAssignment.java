@@ -1,22 +1,32 @@
 package edu.hm.cs.benchsql.model.data;
 
-import java.util.ArrayList;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 
 public class ImportAssignment {
-    private final String profileTypeCode;
-    private final ArrayList<String> assignmentFields;
+    private final SimpleStringProperty propGrpPropAttributeCode;
+    private final SimpleObjectProperty<ImportData> importData;
 
-    public ImportAssignment(final String profileTypeCode, final ArrayList<String> assignmentFields) {
-        this.profileTypeCode = profileTypeCode;
-        this.assignmentFields = assignmentFields;
+    public ImportAssignment(final String propGrpPropAttributeCode, final ImportData importData) {
+        this.propGrpPropAttributeCode = new SimpleStringProperty(propGrpPropAttributeCode);
+        this.importData = new SimpleObjectProperty<>(importData);
     }
 
-    public ArrayList<String> getAssignmentFields() {
-        return this.assignmentFields;
+    public ObjectProperty<ImportData> getImportData() {
+        return this.importData;
     }
 
-    public String getProfileTypeCode() {
-        return this.profileTypeCode;
+    public ImportData getImportDataValue() {
+        return this.importData.get();
+    }
+
+    public String getPropGrpPropAttributeCode() {
+        return this.propGrpPropAttributeCode.get();
+    }
+
+    public void setAssignment(final ImportData importData) {
+        this.importData.set(importData);
     }
 
 }

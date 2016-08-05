@@ -20,6 +20,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.opencsv.CSVReader;
 
 import edu.hm.cs.benchsql.model.Model;
+import edu.hm.cs.benchsql.model.data.ImportData;
 import edu.hm.cs.benchsql.view.MainView;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -174,6 +175,7 @@ public class OpenEventHandler implements EventHandler<ActionEvent> {
             public void run() {
                 Platform.runLater(() -> OpenEventHandler.this.mainView.getTableViewData().getColumns()
                         .removeAll(OpenEventHandler.this.mainView.getTableViewData().getColumns()));
+                OpenEventHandler.this.model.getImportData().removeAll(OpenEventHandler.this.model.getImportData());
                 final ObservableList<String[]> data = FXCollections.observableArrayList();
                 data.addAll(Arrays.asList(tableArray));
                 data.remove(0);
@@ -185,7 +187,7 @@ public class OpenEventHandler implements EventHandler<ActionEvent> {
                     Platform.runLater(() -> OpenEventHandler.this.mainView.getTableViewData().getColumns().add(tc));
                 }
                 for (final String header : tableArray[0]) {
-                    OpenEventHandler.this.model.getTableDataHeader().add(header);
+                    OpenEventHandler.this.model.getImportData().add(new ImportData(header));
                 }
                 Platform.runLater(() -> OpenEventHandler.this.mainView.getTableViewData().setItems(data));
                 Platform.runLater(

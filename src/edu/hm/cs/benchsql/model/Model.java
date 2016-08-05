@@ -5,7 +5,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import edu.hm.cs.benchsql.model.data.ImportData;
 import edu.hm.cs.benchsql.model.data.SqlConnection;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 
 public class Model {
@@ -14,15 +17,16 @@ public class Model {
     private final SqlConnection mssqlConnection;
     private final SqlConnection sybaseConnection;
     private String connectedTo;
-    private final ArrayList<String> tableDataHeader;
+    private final ObservableList<ImportData> importData;
     private final ArrayList<String> profileTypeCodes;
+
     private final ArrayList<String> propGrpPropAttributeCodes;
 
     public Model(final Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.profileTypeCodes = new ArrayList<>();
         this.propGrpPropAttributeCodes = new ArrayList<>();
-        this.tableDataHeader = new ArrayList<>();
+        this.importData = FXCollections.observableArrayList();
         this.mysqlConnection = new SqlConnection();
         this.mssqlConnection = new SqlConnection();
         this.sybaseConnection = new SqlConnection();
@@ -59,6 +63,10 @@ public class Model {
         }
     }
 
+    public ObservableList<ImportData> getImportData() {
+        return this.importData;
+    }
+
     public Stage getPrimaryStage() {
         return this.primaryStage;
     }
@@ -82,10 +90,6 @@ public class Model {
             default:
                 return null;
         }
-    }
-
-    public ArrayList<String> getTableDataHeader() {
-        return this.tableDataHeader;
     }
 
     public void setConnectedTo(final String connectedTo) {
