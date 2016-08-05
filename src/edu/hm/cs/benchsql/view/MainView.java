@@ -1,5 +1,6 @@
 package edu.hm.cs.benchsql.view;
 
+import edu.hm.cs.benchsql.model.data.ImportAssignment;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -18,7 +19,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class MainView {
-
     private final Scene scene;
     private final SplitPane splitPane;
     private final VBox vBoxConnection;
@@ -48,7 +48,7 @@ public class MainView {
     private final Label labelImportData;
     private final Button buttonImportData;
     private final TableView<String[]> tableViewData;
-    private final TableView<String[]> tableViewImportAs;
+    private final TableView<ImportAssignment> tableViewImportAs;
     private final HBox hBoxImportAs;
     private final Label labelImportAs;
     private final ComboBox<String> comboBoxImportAs;
@@ -190,7 +190,7 @@ public class MainView {
         return this.tableViewData;
     }
 
-    public TableView<String[]> getTableViewImportAs() {
+    public TableView<ImportAssignment> getTableViewImportAs() {
         return this.tableViewImportAs;
     }
 

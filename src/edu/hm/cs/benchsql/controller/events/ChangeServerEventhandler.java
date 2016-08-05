@@ -1,7 +1,7 @@
 package edu.hm.cs.benchsql.controller.events;
 
 import edu.hm.cs.benchsql.model.Model;
-import edu.hm.cs.benchsql.model.SqlConnection;
+import edu.hm.cs.benchsql.model.data.SqlConnection;
 import edu.hm.cs.benchsql.view.MainView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

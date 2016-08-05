@@ -1,4 +1,4 @@
-package edu.hm.cs.benchsql.model;
+package edu.hm.cs.benchsql.model.data;
 
 public class SqlConnection {
 

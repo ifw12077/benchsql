@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import edu.hm.cs.benchsql.model.data.SqlConnection;
 import javafx.stage.Stage;
 
 public class Model {

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import edu.hm.cs.benchsql.model.Model;
+import edu.hm.cs.benchsql.model.data.ImportAssignment;
 import edu.hm.cs.benchsql.view.MainView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -30,8 +31,10 @@ public class ChangeImportEventhandler implements EventHandler<ActionEvent> {
     }
 
     private void loadPropGrpPropAttributeCodes(final Connection connection) {
+
         Statement statement = null;
         ResultSet resultSet = null;
+
         try {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(
@@ -67,5 +70,9 @@ public class ChangeImportEventhandler implements EventHandler<ActionEvent> {
             }
         }
 
+        for (final String profileTypeCode : this.model.getProfileTypeCodes()) {
+            this.mainView.getTableViewImportAs().getItems()
+                    .add(new ImportAssignment(profileTypeCode, this.model.getTableDataHeader()));
+        }
     }
 }

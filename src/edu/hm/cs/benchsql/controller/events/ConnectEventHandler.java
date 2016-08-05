@@ -75,5 +75,7 @@ public class ConnectEventHandler implements EventHandler<ActionEvent> {
                 }
             }
         }
+
+        this.mainView.getComboBoxImportAs().getItems().addAll(this.model.getProfileTypeCodes());
     }
 }
