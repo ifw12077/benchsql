@@ -31,8 +31,16 @@ public class ChangeImportEventhandler implements EventHandler<ActionEvent> {
 
     @Override
     public void handle(final ActionEvent event) {
+        System.out.println("1");
+        System.out.println(this.mainView.getTableViewImportAs().getItems().toString());
         this.mainView.getTableViewImportAs().getItems().clear();
-        this.mainView.getTableViewImportAs().getColumns().removeAll(this.mainView.getTableViewImportAs().getColumns());
+        System.out.println("2");
+        System.out.println(this.mainView.getTableViewImportAs().getItems().toString());
+        System.out.println("3");
+        System.out.println(this.mainView.getTableViewImportAs().getColumns().toString());
+        this.mainView.getTableViewImportAs().getColumns().clear();
+        System.out.println("4");
+        System.out.println(this.mainView.getTableViewImportAs().getColumns().toString());
 
         try {
             this.loadPropGrpPropAttributeCodes(this.model.getConnection(this.model.getConnectedTo()));
@@ -97,11 +105,20 @@ public class ChangeImportEventhandler implements EventHandler<ActionEvent> {
         this.mainView.getTableViewImportAs().setEditable(true);
         tc1.setEditable(false);
         tc2.setEditable(true);
-        this.mainView.getTableViewImportAs().getColumns().addAll(tc1, tc2);
+        this.mainView.getTableViewImportAs().getColumns().setAll(tc1, tc2);
         final ObservableList<ImportAssignment> data = FXCollections.observableArrayList();
         for (final String propGrpPropAttributeCode : this.model.getPropGrpPropAttributeCodes()) {
-            data.add(new ImportAssignment(propGrpPropAttributeCode, this.model.getImportData().get(0)));
+            data.add(new ImportAssignment(propGrpPropAttributeCode, new ImportData("")));
         }
+        System.out.println("5");
+        System.out.println(this.mainView.getTableViewImportAs().getItems().toString());
+        System.out.println("6");
+        System.out.println(data.toString());
+        this.mainView.getTableViewImportAs().setItems(this.mainView.getTableViewImportAs().getItems());
+        System.out.println("7");
+        System.out.println(this.mainView.getTableViewImportAs().getItems().toString());
         this.mainView.getTableViewImportAs().setItems(data);
+        System.out.println("8");
+        System.out.println(this.mainView.getTableViewImportAs().getItems().toString());
     }
 }
