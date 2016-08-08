@@ -173,8 +173,7 @@ public class OpenEventHandler implements EventHandler<ActionEvent> {
         final Thread thread = new Thread() {
             @Override
             public void run() {
-                Platform.runLater(() -> OpenEventHandler.this.mainView.getTableViewData().getColumns()
-                        .removeAll(OpenEventHandler.this.mainView.getTableViewData().getColumns()));
+                Platform.runLater(() -> OpenEventHandler.this.mainView.getTableViewData().getColumns().clear());
                 OpenEventHandler.this.model.getImportData().removeAll(OpenEventHandler.this.model.getImportData());
                 final ObservableList<String[]> data = FXCollections.observableArrayList();
                 data.addAll(Arrays.asList(tableArray));

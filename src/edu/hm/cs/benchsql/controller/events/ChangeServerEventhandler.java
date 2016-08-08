@@ -28,7 +28,8 @@ public class ChangeServerEventhandler implements EventHandler<ActionEvent> {
             this.mainView.getPasswordFieldPasswort().setText(sqlConnection.getPassword());
             this.mainView.getComboBoxImportAs().getSelectionModel().clearSelection();
             this.mainView.getComboBoxImportAs().getItems().clear();
-            this.mainView.getTableViewImportAs().getColumns().removeAll(this.mainView.getTableViewData().getColumns());
+            this.mainView.getTableViewImportAs().getColumns().clear();
+            this.mainView.getTableViewImportAs().getItems().clear();
             this.mainView.getLabelConnect().setText("");
         }
     }

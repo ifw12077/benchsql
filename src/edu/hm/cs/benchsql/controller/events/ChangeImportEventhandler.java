@@ -31,16 +31,9 @@ public class ChangeImportEventhandler implements EventHandler<ActionEvent> {
 
     @Override
     public void handle(final ActionEvent event) {
-        System.out.println("1");
-        System.out.println(this.mainView.getTableViewImportAs().getItems().toString());
         this.mainView.getTableViewImportAs().getItems().clear();
-        System.out.println("2");
-        System.out.println(this.mainView.getTableViewImportAs().getItems().toString());
-        System.out.println("3");
-        System.out.println(this.mainView.getTableViewImportAs().getColumns().toString());
         this.mainView.getTableViewImportAs().getColumns().clear();
-        System.out.println("4");
-        System.out.println(this.mainView.getTableViewImportAs().getColumns().toString());
+        this.model.getPropGrpPropAttributeCodes().clear();
 
         try {
             this.loadPropGrpPropAttributeCodes(this.model.getConnection(this.model.getConnectedTo()));
@@ -94,7 +87,6 @@ public class ChangeImportEventhandler implements EventHandler<ActionEvent> {
         final TableColumn<ImportAssignment, ImportData> tc2 = new TableColumn<>("ImportData");
 
         tc1.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getPropGrpPropAttributeCode()));
-        tc2.setCellValueFactory(cellData -> cellData.getValue().getImportData());
         final Callback<TableColumn<ImportAssignment, ImportData>, TableCell<ImportAssignment, ImportData>> comboBoxCellFactory = (
                 final TableColumn<ImportAssignment, ImportData> param) -> new ComboBoxEditingCell(
                         this.model.getImportData());
@@ -110,15 +102,7 @@ public class ChangeImportEventhandler implements EventHandler<ActionEvent> {
         for (final String propGrpPropAttributeCode : this.model.getPropGrpPropAttributeCodes()) {
             data.add(new ImportAssignment(propGrpPropAttributeCode, new ImportData("")));
         }
-        System.out.println("5");
-        System.out.println(this.mainView.getTableViewImportAs().getItems().toString());
-        System.out.println("6");
-        System.out.println(data.toString());
         this.mainView.getTableViewImportAs().setItems(this.mainView.getTableViewImportAs().getItems());
-        System.out.println("7");
-        System.out.println(this.mainView.getTableViewImportAs().getItems().toString());
         this.mainView.getTableViewImportAs().setItems(data);
-        System.out.println("8");
-        System.out.println(this.mainView.getTableViewImportAs().getItems().toString());
     }
 }

@@ -29,16 +29,16 @@ public class ConnectEventHandler implements EventHandler<ActionEvent> {
             this.loadProfileTypeCodes(this.model.getConnection(connectionString));
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+        } finally {
+            if ("MySQL".equals(connectionString)) {
+                this.model.setConnectedTo("MySQL");
+            } else if ("Microsoft SQL".equals(connectionString)) {
+                this.model.setConnectedTo("Microsoft SQL");
+            } else if ("SQL Anywhere".equals(connectionString)) {
+                this.model.setConnectedTo("SQL Anywhere");
+            }
+            this.mainView.getLabelConnect().setText(this.model.getConnectedTo() + " verbunden!");
         }
-
-        if ("MySQL".equals(connectionString)) {
-            this.model.setConnectedTo("MySQL");
-        } else if ("Microsoft SQL".equals(connectionString)) {
-            this.model.setConnectedTo("Microsoft SQL");
-        } else if ("SQL Anywhere".equals(connectionString)) {
-            this.model.setConnectedTo("SQL Anywhere");
-        }
-        this.mainView.getLabelConnect().setText(this.model.getConnectedTo() + " verbunden!");
     }
 
     private void loadProfileTypeCodes(final Connection connection) {
