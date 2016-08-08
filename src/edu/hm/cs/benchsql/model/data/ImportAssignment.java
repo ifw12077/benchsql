@@ -25,7 +25,7 @@ public class ImportAssignment {
         return this.propGrpPropAttributeCode.get();
     }
 
-    public void setAssignment(final ImportData importData) {
+    public void setImportData(final ImportData importData) {
         this.importData.set(importData);
     }
 

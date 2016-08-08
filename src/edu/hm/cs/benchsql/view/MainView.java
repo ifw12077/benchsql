@@ -10,6 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Separator;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableView;
@@ -20,9 +22,10 @@ import javafx.stage.Stage;
 
 public class MainView {
     private final Scene scene;
+    private final ScrollPane scrollPane;
     private final SplitPane splitPane;
     private final VBox vBoxConnection;
-    private final HBox hBoxs;
+    private final HBox hBoxServer;
     private final Label labels;
     private final ComboBox<String> comboBoxTypes;
     private final HBox hBoxIpPort;
@@ -58,14 +61,14 @@ public class MainView {
     private final Button buttonImport;
 
     public MainView() {
-        this.hBoxs = new HBox();
-        this.hBoxs.setSpacing(10);
-        this.hBoxs.setPadding(new Insets(5));
-        this.hBoxs.setAlignment(Pos.CENTER);
+        this.hBoxServer = new HBox();
+        this.hBoxServer.setSpacing(10);
+        this.hBoxServer.setPadding(new Insets(5));
+        this.hBoxServer.setAlignment(Pos.CENTER);
         this.labels = new Label("Typ:");
         this.comboBoxTypes = new ComboBox<>(
                 FXCollections.observableArrayList("MySQL", "Microsoft SQL", "SQL Anywhere"));
-        this.hBoxs.getChildren().addAll(this.labels, this.comboBoxTypes);
+        this.hBoxServer.getChildren().addAll(this.labels, this.comboBoxTypes);
 
         this.hBoxIpPort = new HBox();
         this.hBoxIpPort.setSpacing(10);
@@ -137,12 +140,16 @@ public class MainView {
         this.hBoxImport.getChildren().addAll(this.labelImport, this.textFieldImport, this.buttonImport);
 
         this.splitPane = new SplitPane();
+        this.scrollPane = new ScrollPane();
+        this.scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+        this.scrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
         this.vBoxConnection = new VBox();
-        this.vBoxConnection.getChildren().addAll(this.hBoxs, this.hBoxIpPort, this.hBoxDatabase, this.hBoxLogin,
+        this.scrollPane.setContent(this.vBoxConnection);
+        this.vBoxConnection.getChildren().addAll(this.hBoxServer, this.hBoxIpPort, this.hBoxDatabase, this.hBoxLogin,
                 this.hBoxConnect, new Separator(Orientation.HORIZONTAL), this.hBoxImportData,
                 new Separator(Orientation.HORIZONTAL), this.hBoxImportAs, this.tableViewImportAs, this.hBoxImport);
         this.tableViewData = new TableView<>();
-        this.splitPane.getItems().addAll(this.vBoxConnection, this.tableViewData);
+        this.splitPane.getItems().addAll(this.scrollPane, this.tableViewData);
         this.scene = new Scene(this.splitPane);
     }
 
@@ -198,6 +205,10 @@ public class MainView {
         return this.textFieldDatabase;
     }
 
+    public TextField getTextFieldImport() {
+        return this.textFieldImport;
+    }
+
     public TextField getTextFieldInstance() {
         return this.textFieldInstance;
     }
@@ -219,6 +230,6 @@ public class MainView {
         primaryStage.setTitle("benchSQL");
         primaryStage.setScene(this.scene);
         primaryStage.show();
-        this.splitPane.setDividerPosition(0, 0.2687723480333731);
+        this.splitPane.setDividerPosition(0, 0.24);
     }
 }

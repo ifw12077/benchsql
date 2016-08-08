@@ -10,7 +10,22 @@ public class SqlConnection {
     private String password;
 
     public SqlConnection() {
-        this.initializeFields();
+        this.setIp("");
+        this.setPort("");
+        this.setInstance("");
+        this.setDatabase("");
+        this.setUser("");
+        this.setPassword("");
+    }
+
+    public SqlConnection(final String ip, final String port, final String instance, final String database,
+            final String user, final String password) {
+        this.setIp(ip);
+        this.setPort(port);
+        this.setInstance(instance);
+        this.setDatabase(database);
+        this.setUser(user);
+        this.setPassword(password);
     }
 
     public String getDatabase() {
@@ -35,15 +50,6 @@ public class SqlConnection {
 
     public String getUser() {
         return this.user;
-    }
-
-    private void initializeFields() {
-        this.setIp("");
-        this.setPort("");
-        this.setInstance("");
-        this.setDatabase("");
-        this.setUser("");
-        this.setPassword("");
     }
 
     public void setDatabase(final String Database) {

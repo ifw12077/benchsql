@@ -23,57 +23,41 @@ public class ConnectEventHandler implements EventHandler<ActionEvent> {
     @Override
     public void handle(final ActionEvent event) {
         this.mainView.getButtonSave().fire();
+        this.mainView.getComboBoxImportAs().getSelectionModel().clearSelection();
+        this.mainView.getComboBoxImportAs().getItems().clear();
         final String connectionString = this.mainView.getComboBoxTypes().getValue();
 
         try {
             this.loadProfileTypeCodes(this.model.getConnection(connectionString));
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-        } finally {
-            if ("MySQL".equals(connectionString)) {
-                this.model.setConnectedTo("MySQL");
-            } else if ("Microsoft SQL".equals(connectionString)) {
-                this.model.setConnectedTo("Microsoft SQL");
-            } else if ("SQL Anywhere".equals(connectionString)) {
-                this.model.setConnectedTo("SQL Anywhere");
-            }
-            this.mainView.getLabelConnect().setText(this.model.getConnectedTo() + " verbunden!");
         }
+
+        if ("MySQL".equals(connectionString)) {
+            this.model.setConnectedTo("MySQL");
+        } else if ("Microsoft SQL".equals(connectionString)) {
+            this.model.setConnectedTo("Microsoft SQL");
+        } else if ("SQL Anywhere".equals(connectionString)) {
+            this.model.setConnectedTo("SQL Anywhere");
+        }
+        this.mainView.getLabelConnect().setText(this.model.getConnectedTo() + " verbunden!");
     }
 
     private void loadProfileTypeCodes(final Connection connection) {
         Statement statement = null;
         ResultSet resultSet = null;
+
         try {
             statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT profiletypecode FROM pri_profiletype");
             while (resultSet.next()) {
                 this.model.getProfileTypeCodes().add(resultSet.getString("profiletypecode"));
             }
+            resultSet.close();
+            statement.close();
+            connection.close();
         } catch (final SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (resultSet != null) {
-                try {
-                    resultSet.close();
-                } catch (final SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (final SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (final SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
 
         this.mainView.getComboBoxImportAs().getItems().addAll(this.model.getProfileTypeCodes());

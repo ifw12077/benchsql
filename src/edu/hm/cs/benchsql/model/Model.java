@@ -27,9 +27,9 @@ public class Model {
         this.profileTypeCodes = new ArrayList<>();
         this.propGrpPropAttributeCodes = new ArrayList<>();
         this.importData = FXCollections.observableArrayList();
-        this.mysqlConnection = new SqlConnection();
-        this.mssqlConnection = new SqlConnection();
-        this.sybaseConnection = new SqlConnection();
+        this.mysqlConnection = new SqlConnection("192.168.47.7", "30857", "", "devfederico", "root", "%dbaIN1501");
+        this.mssqlConnection = new SqlConnection("192.168.47.7", "1433", "", "federico", "federico", "federico");
+        this.sybaseConnection = new SqlConnection("192.168.47.7", "49155", "federico", "federico", "DBA", "dba");
     }
 
     public String getConnectedTo() {

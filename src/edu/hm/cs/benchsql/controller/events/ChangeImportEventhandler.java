@@ -10,6 +10,7 @@ import edu.hm.cs.benchsql.model.data.ImportAssignment;
 import edu.hm.cs.benchsql.model.data.ImportData;
 import edu.hm.cs.benchsql.view.ComboBoxEditingCell;
 import edu.hm.cs.benchsql.view.MainView;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -44,7 +45,6 @@ public class ChangeImportEventhandler implements EventHandler<ActionEvent> {
 
     @SuppressWarnings("unchecked")
     private void loadPropGrpPropAttributeCodes(final Connection connection) {
-
         Statement statement = null;
         ResultSet resultSet = null;
 
@@ -57,30 +57,11 @@ public class ChangeImportEventhandler implements EventHandler<ActionEvent> {
             while (resultSet.next()) {
                 this.model.getPropGrpPropAttributeCodes().add(resultSet.getString("propgrppropattributecode"));
             }
+            resultSet.close();
+            statement.close();
+            connection.close();
         } catch (final SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (resultSet != null) {
-                try {
-                    resultSet.close();
-                } catch (final SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (final SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (final SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
 
         final TableColumn<ImportAssignment, String> tc1 = new TableColumn<>("PropGrpPropAttributeCode");
@@ -92,7 +73,7 @@ public class ChangeImportEventhandler implements EventHandler<ActionEvent> {
                         this.model.getImportData());
         tc2.setCellFactory(comboBoxCellFactory);
         tc2.setOnEditCommit((final TableColumn.CellEditEvent<ImportAssignment, ImportData> t) -> {
-            t.getTableView().getItems().get(t.getTablePosition().getRow()).setAssignment(t.getNewValue());
+            t.getTableView().getItems().get(t.getTablePosition().getRow()).setImportData(t.getNewValue());
         });
         this.mainView.getTableViewImportAs().setEditable(true);
         tc1.setEditable(false);
@@ -100,9 +81,15 @@ public class ChangeImportEventhandler implements EventHandler<ActionEvent> {
         this.mainView.getTableViewImportAs().getColumns().setAll(tc1, tc2);
         final ObservableList<ImportAssignment> data = FXCollections.observableArrayList();
         for (final String propGrpPropAttributeCode : this.model.getPropGrpPropAttributeCodes()) {
-            data.add(new ImportAssignment(propGrpPropAttributeCode, new ImportData("")));
+            data.add(new ImportAssignment(propGrpPropAttributeCode, this.model.getImportData().get(0)));
         }
-        this.mainView.getTableViewImportAs().setItems(this.mainView.getTableViewImportAs().getItems());
         this.mainView.getTableViewImportAs().setItems(data);
+        this.mainView.getTableViewImportAs().setFixedCellSize(25);
+        this.mainView.getTableViewImportAs().prefHeightProperty().bind(this.mainView.getTableViewImportAs()
+                .fixedCellSizeProperty().multiply(Bindings.size(this.mainView.getTableViewImportAs().getItems())));
+        this.mainView.getTableViewImportAs().minHeightProperty()
+                .bind(this.mainView.getTableViewImportAs().prefHeightProperty().add(25));
+        this.mainView.getTableViewImportAs().maxHeightProperty()
+                .bind(this.mainView.getTableViewImportAs().prefHeightProperty().add(25));
     }
 }
