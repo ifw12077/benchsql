@@ -1,35 +1,10 @@
 package edu.hm.cs.benchsql.controller.events;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Optional;
-
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CreationHelper;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import com.opencsv.CSVReader;
-
+import edu.hm.cs.benchsql.controller.threads.OpenDataThread;
 import edu.hm.cs.benchsql.model.Model;
-import edu.hm.cs.benchsql.model.data.ImportData;
 import edu.hm.cs.benchsql.view.MainView;
-import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TextInputDialog;
 import javafx.stage.FileChooser;
 
 public class OpenEventHandler implements EventHandler<ActionEvent> {
@@ -50,152 +25,8 @@ public class OpenEventHandler implements EventHandler<ActionEvent> {
                 .add(new FileChooser.ExtensionFilter("Excel 97-2003 Arbeitsmappe (*.xls)", "*.xls"));
         fileChooser.getExtensionFilters()
                 .add(new FileChooser.ExtensionFilter("Trennzeichen getrennt (*.csv)", "*.csv"));
-        final File file = fileChooser.showOpenDialog(this.model.getPrimaryStage());
-        if (file != null) {
-            String extension = "";
-            final String fileName = file.getAbsolutePath();
-            final int i = fileName.lastIndexOf('.');
-            if (i > 0) {
-                extension = fileName.substring(i + 1);
-            }
-            if ("xlsx".equals(extension)) {
-                try {
-                    final FileInputStream xfile = new FileInputStream(new File(fileName));
-                    final Workbook workbook = new XSSFWorkbook(xfile);
-                    this.readExcel(workbook);
-                    workbook.close();
-                    xfile.close();
-                } catch (final FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (final IOException e) {
-                    e.printStackTrace();
-                }
-            } else if ("xls".equals(extension)) {
-                try {
-                    final FileInputStream xfile = new FileInputStream(new File(fileName));
-                    final Workbook workbook = new HSSFWorkbook(xfile);
-                    this.readExcel(workbook);
-                    workbook.close();
-                    xfile.close();
-                } catch (final FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (final IOException e) {
-                    e.printStackTrace();
-                }
-            } else if ("csv".equals(extension)) {
-                try {
-                    final TextInputDialog dialog = new TextInputDialog(";");
-                    dialog.setTitle("CSV Trennzeichen");
-                    dialog.setHeaderText("Mit welchem Zeichen werden die Spalten getrennt?");
-                    dialog.setContentText("Trennzeichen:");
-                    final CSVReader csvReader;
-                    final Optional<String> result = dialog.showAndWait();
-                    if (result.isPresent()) {
-                        csvReader = new CSVReader(new FileReader(fileName), result.get().charAt(0));
-                        final Workbook workbook = new HSSFWorkbook();
-                        final CreationHelper helper = workbook.getCreationHelper();
-                        final Sheet sheet = workbook.createSheet();
-                        String[] line = csvReader.readNext();
-                        int rowCount = 0;
-
-                        while (line != null) {
-                            final Row row = sheet.createRow(rowCount);
-                            for (int j = 0; j < line.length; j++) {
-                                row.createCell(j).setCellValue(helper.createRichTextString(line[j]));
-                            }
-                            rowCount++;
-                            line = csvReader.readNext();
-                        }
-                        this.readExcel(workbook);
-                        workbook.close();
-                        csvReader.close();
-                    }
-                } catch (final FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (final IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        final Thread openDataThread = new Thread(new OpenDataThread(this.model, this.mainView,
+                fileChooser.showOpenDialog(this.model.getPrimaryStage())));
+        openDataThread.start();
     }
-
-    private void readExcel(final Workbook workbook) {
-        final Sheet firstSheet = workbook.getSheetAt(0);
-        Iterator<Row> iterator = firstSheet.iterator();
-
-        int i = 0;
-        int j = 0;
-        int cellCount = 0;
-
-        while (iterator.hasNext()) {
-            final Row nextRow = iterator.next();
-            i++;
-            final Iterator<Cell> cellIterator = nextRow.cellIterator();
-
-            while (cellIterator.hasNext()) {
-                cellIterator.next();
-                j++;
-            }
-            if (j > cellCount) {
-                cellCount = j;
-            }
-
-            j = 0;
-        }
-
-        iterator = firstSheet.iterator();
-        final String[][] excelArray = new String[i][cellCount];
-        i = 0;
-        j = 0;
-
-        while (iterator.hasNext()) {
-            final Row nextRow = iterator.next();
-            final Iterator<Cell> cellIterator = nextRow.cellIterator();
-
-            while (cellIterator.hasNext()) {
-                final Cell cell = cellIterator.next();
-                cell.setCellType(Cell.CELL_TYPE_STRING);
-                final int cellType = cell.getCellType();
-                final int cellNumber = cell.getColumnIndex();
-                final String cellValue = cell.getStringCellValue();
-                if (cellType == Cell.CELL_TYPE_STRING) {
-                    excelArray[i][cellNumber] = cellValue;
-                } else {
-                    excelArray[i][cellNumber] = "";
-                }
-            }
-            i++;
-        }
-        this.writeToTable(excelArray);
-    }
-
-    private void writeToTable(final String[][] tableArray) {
-        final Thread thread = new Thread() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> OpenEventHandler.this.mainView.getTableViewData().getColumns().clear());
-                OpenEventHandler.this.model.getImportData().removeAll(OpenEventHandler.this.model.getImportData());
-                final ObservableList<String[]> data = FXCollections.observableArrayList();
-                data.addAll(Arrays.asList(tableArray));
-                data.remove(0);
-                for (int i = 0; i < tableArray[0].length; i++) {
-                    final TableColumn<String[], String> tc = new TableColumn<>(tableArray[0][i]);
-                    final int colNo = i;
-                    tc.setCellValueFactory(p -> new SimpleStringProperty((p.getValue()[colNo])));
-                    tc.setPrefWidth(90);
-                    Platform.runLater(() -> OpenEventHandler.this.mainView.getTableViewData().getColumns().add(tc));
-                }
-                OpenEventHandler.this.model.getImportData().add(new ImportData(""));
-                for (final String header : tableArray[0]) {
-                    OpenEventHandler.this.model.getImportData().add(new ImportData(header));
-                }
-                Platform.runLater(() -> OpenEventHandler.this.mainView.getTableViewData().setItems(data));
-                Platform.runLater(
-                        () -> OpenEventHandler.this.mainView.getlabelImportData().setText("Daten importiert!"));
-                Platform.runLater(() -> OpenEventHandler.this.mainView.getComboBoxImportAs().setDisable(false));
-            }
-        };
-        thread.start();
-    }
-
 }

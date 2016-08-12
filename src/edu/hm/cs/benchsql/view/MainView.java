@@ -7,6 +7,7 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -56,9 +57,12 @@ public class MainView {
     private final Label labelImportAs;
     private final ComboBox<String> comboBoxImportAs;
     private final HBox hBoxImport;
+    private final CheckBox checkBoxImport;
     private final Label labelImport;
     private final TextField textFieldImport;
     private final Button buttonImport;
+    private final HBox hBoxResult;
+    private final Label labelResult;
 
     public MainView() {
         this.hBoxServer = new HBox();
@@ -134,10 +138,19 @@ public class MainView {
         this.hBoxImport.setSpacing(10);
         this.hBoxImport.setPadding(new Insets(5));
         this.hBoxImport.setAlignment(Pos.CENTER);
+        this.checkBoxImport = new CheckBox("Threaded");
         this.labelImport = new Label("Anzahl Datensätze:");
         this.textFieldImport = new TextField();
         this.buttonImport = new Button("Importieren");
-        this.hBoxImport.getChildren().addAll(this.labelImport, this.textFieldImport, this.buttonImport);
+        this.hBoxImport.getChildren().addAll(this.checkBoxImport, this.labelImport, this.textFieldImport,
+                this.buttonImport);
+
+        this.hBoxResult = new HBox();
+        this.hBoxResult.setSpacing(10);
+        this.hBoxResult.setPadding(new Insets(5));
+        this.hBoxResult.setAlignment(Pos.CENTER);
+        this.labelResult = new Label("");
+        this.hBoxResult.getChildren().addAll(this.labelResult);
 
         this.splitPane = new SplitPane();
         this.scrollPane = new ScrollPane();
@@ -147,7 +160,8 @@ public class MainView {
         this.scrollPane.setContent(this.vBoxConnection);
         this.vBoxConnection.getChildren().addAll(this.hBoxServer, this.hBoxIpPort, this.hBoxDatabase, this.hBoxLogin,
                 this.hBoxConnect, new Separator(Orientation.HORIZONTAL), this.hBoxImportData,
-                new Separator(Orientation.HORIZONTAL), this.hBoxImportAs, this.tableViewImportAs, this.hBoxImport);
+                new Separator(Orientation.HORIZONTAL), this.hBoxImportAs, this.tableViewImportAs, this.hBoxImport,
+                this.hBoxResult);
         this.tableViewData = new TableView<>();
         this.splitPane.getItems().addAll(this.scrollPane, this.tableViewData);
         this.scene = new Scene(this.splitPane);
@@ -169,6 +183,10 @@ public class MainView {
         return this.buttonSave;
     }
 
+    public CheckBox getCheckBoxImport() {
+        return this.checkBoxImport;
+    }
+
     public ComboBox<String> getComboBoxImportAs() {
         return this.comboBoxImportAs;
     }
@@ -183,6 +201,10 @@ public class MainView {
 
     public Label getlabelImportData() {
         return this.labelImportData;
+    }
+
+    public Label getLabelResult() {
+        return this.labelResult;
     }
 
     public PasswordField getPasswordFieldPasswort() {

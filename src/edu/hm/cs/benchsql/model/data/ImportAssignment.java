@@ -13,11 +13,11 @@ public class ImportAssignment {
         this.importData = new SimpleObjectProperty<>(importData);
     }
 
-    public ObjectProperty<ImportData> getImportData() {
+    public ObjectProperty<ImportData> getImportDataObject() {
         return this.importData;
     }
 
-    public ImportData getImportDataValue() {
+    public ImportData getImportData() {
         return this.importData.get();
     }
 
