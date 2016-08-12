@@ -1,4 +1,4 @@
-package edu.hm.cs.benchsql.controller.threads;
+package edu.hm.cs.benchsql.controller.tasks;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,18 +25,36 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
 
-public class OpenDataThread implements Runnable {
+public class OpenDataTask extends Task<Void> {
 
     private final Model model;
     private final MainView mainView;
     private final File file;
 
-    public OpenDataThread(final Model model, final MainView mainView, final File file) {
+    public OpenDataTask(final Model model, final MainView mainView, final File file) {
         this.model = model;
         this.mainView = mainView;
         this.file = file;
+        super.setOnSucceeded(event -> {
+            final Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Datenimport erfolgreich");
+            alert.setHeaderText("Die Datei wurde erfolgreich importiert");
+            alert.setContentText(file.getAbsolutePath());
+            alert.showAndWait();
+        });
+    }
+
+    @Override
+    protected Void call() throws Exception {
+        final Workbook workbook = this.readFile(this.file);
+        final String[][] dataArray = this.readWorkbook(workbook);
+        this.writeToTable(dataArray);
+        return null;
     }
 
     private Workbook readFile(final File file) {
@@ -153,13 +171,6 @@ public class OpenDataThread implements Runnable {
         return excelArray;
     }
 
-    @Override
-    public void run() {
-        final Workbook workbook = this.readFile(this.file);
-        final String[][] dataArray = this.readWorkbook(workbook);
-        this.writeToTable(dataArray);
-    }
-
     private void writeToTable(final String[][] tableArray) {
         Platform.runLater(() -> this.mainView.getTableViewData().getColumns().clear());
         this.model.getImportData().removeAll(this.model.getImportData());
@@ -178,8 +189,6 @@ public class OpenDataThread implements Runnable {
             this.model.getImportData().add(new ImportData(header));
         }
         Platform.runLater(() -> this.mainView.getTableViewData().setItems(data));
-        Platform.runLater(
-                () -> this.mainView.getlabelImportData().setText(this.file.getAbsolutePath() + " importiert!"));
         Platform.runLater(() -> this.mainView.getComboBoxImportAs().setDisable(false));
     }
 

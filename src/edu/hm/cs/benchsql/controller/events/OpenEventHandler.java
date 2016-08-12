@@ -1,6 +1,6 @@
 package edu.hm.cs.benchsql.controller.events;
 
-import edu.hm.cs.benchsql.controller.threads.OpenDataThread;
+import edu.hm.cs.benchsql.controller.tasks.OpenDataTask;
 import edu.hm.cs.benchsql.model.Model;
 import edu.hm.cs.benchsql.view.MainView;
 import javafx.event.ActionEvent;
@@ -25,8 +25,8 @@ public class OpenEventHandler implements EventHandler<ActionEvent> {
                 .add(new FileChooser.ExtensionFilter("Excel 97-2003 Arbeitsmappe (*.xls)", "*.xls"));
         fileChooser.getExtensionFilters()
                 .add(new FileChooser.ExtensionFilter("Trennzeichen getrennt (*.csv)", "*.csv"));
-        final Thread openDataThread = new Thread(new OpenDataThread(this.model, this.mainView,
-                fileChooser.showOpenDialog(this.model.getPrimaryStage())));
+        final Thread openDataThread = new Thread(
+                new OpenDataTask(this.model, this.mainView, fileChooser.showOpenDialog(this.model.getPrimaryStage())));
         openDataThread.start();
     }
 }

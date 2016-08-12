@@ -31,8 +31,8 @@ public class ChangeServerEventhandler implements EventHandler<ActionEvent> {
             this.mainView.getTableViewImportAs().getColumns().clear();
             this.mainView.getTableViewImportAs().getItems().clear();
             this.mainView.getLabelConnect().setText("");
-            this.model.setConnectedTo("");
             this.mainView.getLabelResult().setText("");
+            this.model.setConnectedTo("");
         }
     }
 }

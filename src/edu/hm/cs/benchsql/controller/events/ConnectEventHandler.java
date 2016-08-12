@@ -9,6 +9,8 @@ import edu.hm.cs.benchsql.model.Model;
 import edu.hm.cs.benchsql.view.MainView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class ConnectEventHandler implements EventHandler<ActionEvent> {
 
@@ -26,21 +28,28 @@ public class ConnectEventHandler implements EventHandler<ActionEvent> {
         this.mainView.getComboBoxImportAs().getSelectionModel().clearSelection();
         this.mainView.getComboBoxImportAs().getItems().clear();
         final String connectionString = this.mainView.getComboBoxTypes().getValue();
+        if (connectionString != null) {
+            try {
+                this.loadProfileTypeCodes(this.model.getConnection(connectionString));
+            } catch (ClassNotFoundException | SQLException e) {
+                e.printStackTrace();
+            }
 
-        try {
-            this.loadProfileTypeCodes(this.model.getConnection(connectionString));
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            if ("MySQL".equals(connectionString)) {
+                this.model.setConnectedTo("MySQL");
+            } else if ("Microsoft SQL".equals(connectionString)) {
+                this.model.setConnectedTo("Microsoft SQL");
+            } else if ("SQL Anywhere".equals(connectionString)) {
+                this.model.setConnectedTo("SQL Anywhere");
+            }
+            this.mainView.getLabelConnect().setText(this.model.getConnectedTo() + " verbunden!");
+        } else {
+            final Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Fehler beim Verbinden");
+            alert.setHeaderText("Serververbindung fehlt");
+            alert.setContentText("Bitte wählen Sie eine Serververbindung aus!");
+            alert.showAndWait();
         }
-
-        if ("MySQL".equals(connectionString)) {
-            this.model.setConnectedTo("MySQL");
-        } else if ("Microsoft SQL".equals(connectionString)) {
-            this.model.setConnectedTo("Microsoft SQL");
-        } else if ("SQL Anywhere".equals(connectionString)) {
-            this.model.setConnectedTo("SQL Anywhere");
-        }
-        this.mainView.getLabelConnect().setText(this.model.getConnectedTo() + " verbunden!");
     }
 
     private void loadProfileTypeCodes(final Connection connection) {

@@ -3,7 +3,7 @@ package edu.hm.cs.benchsql.controller.events;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
-import edu.hm.cs.benchsql.controller.threads.ImportProfileThread;
+import edu.hm.cs.benchsql.controller.tasks.ImportProfileTask;
 import edu.hm.cs.benchsql.model.Model;
 import edu.hm.cs.benchsql.view.MainView;
 import javafx.event.ActionEvent;
@@ -43,7 +43,7 @@ public class ImportEventHandler implements EventHandler<ActionEvent> {
                     if (this.mainView.getCheckBoxImport().isSelected()) {
                         final Thread[] threadArray = new Thread[importCount];
                         for (int i = 0; i < threadArray.length; i++) {
-                            threadArray[i] = new Thread(new ImportProfileThread(this.model, this.mainView, profileType,
+                            threadArray[i] = new Thread(new ImportProfileTask(this.model, this.mainView, profileType,
                                     importedCount % importBase));
                             threadArray[i].start();
                             importedCount++;
@@ -58,7 +58,7 @@ public class ImportEventHandler implements EventHandler<ActionEvent> {
                         }
                     } else {
                         while (importedCount < importCount) {
-                            final Thread thread = new Thread(new ImportProfileThread(this.model, this.mainView,
+                            final Thread thread = new Thread(new ImportProfileTask(this.model, this.mainView,
                                     profileType, importedCount % importBase));
                             thread.start();
                             try {

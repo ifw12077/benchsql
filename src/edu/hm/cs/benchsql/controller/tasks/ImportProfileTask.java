@@ -1,4 +1,4 @@
-package edu.hm.cs.benchsql.controller.threads;
+package edu.hm.cs.benchsql.controller.tasks;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -10,21 +10,31 @@ import edu.hm.cs.benchsql.model.Model;
 import edu.hm.cs.benchsql.model.data.ImportAssignment;
 import edu.hm.cs.benchsql.view.MainView;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-public class ImportProfileThread implements Runnable {
+public class ImportProfileTask extends Task<Void> {
 
     private final int index;
     private final Model model;
     private final MainView mainView;
     private final String profileType;
 
-    public ImportProfileThread(final Model model, final MainView mainView, final String profileType, final int index) {
+    public ImportProfileTask(final Model model, final MainView mainView, final String profileType, final int index) {
         this.model = model;
         this.mainView = mainView;
         this.profileType = profileType;
         this.index = index;
+    }
+
+    @Override
+    protected Void call() throws Exception {
+        final Integer objectId = this.createObject(this.profileType);
+        if (objectId != null) {
+            this.storeprofile(this.index, this.profileType, objectId);
+        }
+        return null;
     }
 
     private Integer createMsqlObject(final String profileType, final Connection connection) {
@@ -271,14 +281,6 @@ public class ImportProfileThread implements Runnable {
             }
         }
         return "";
-    }
-
-    @Override
-    public void run() {
-        final Integer objectId = this.createObject(this.profileType);
-        if (objectId != null) {
-            this.storeprofile(this.index, this.profileType, objectId);
-        }
     }
 
     private void storeMsqlProfile(final String profileType, final Integer objectId, final String propGrpropPropattr,
