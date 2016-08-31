@@ -38,7 +38,6 @@ public class ImportEventHandler implements EventHandler<ActionEvent> {
                 if (profileType != null) {
                     final Integer importCount = this.getImportCount();
                     Integer importedCount = 0;
-
                     final long startTime = System.currentTimeMillis();
                     if (this.mainView.getCheckBoxImport().isSelected()) {
                         final Thread[] threadArray = new Thread[importCount];
