@@ -17,6 +17,7 @@ import javafx.scene.control.Separator;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -251,7 +252,8 @@ public class MainView {
         primaryStage.setMaximized(true);
         primaryStage.setTitle("benchSQL");
         primaryStage.setScene(this.scene);
+        primaryStage.getIcons().add(new Image(this.getClass().getResourceAsStream("./../resources/sql-icon.png")));
         primaryStage.show();
-        this.splitPane.setDividerPosition(0, 0.24);
+        this.splitPane.setDividerPosition(0, 0.25);
     }
 }
