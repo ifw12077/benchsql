@@ -26,6 +26,9 @@ public class ImportEventHandler implements EventHandler<ActionEvent> {
         if (importCount == 0) {
             importCount = this.mainView.getTableViewData().getItems().size();
         }
+        if (importCount > 100) {
+            importCount = 100;
+        }
         return importCount;
     }
 

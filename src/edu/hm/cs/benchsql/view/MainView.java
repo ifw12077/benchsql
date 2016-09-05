@@ -142,6 +142,7 @@ public class MainView {
         this.checkBoxImport = new CheckBox("Threaded");
         this.labelImport = new Label("Anzahl Datensätze:");
         this.textFieldImport = new TextField();
+        this.textFieldImport.setText("max. 100");
         this.buttonImport = new Button("Importieren");
         this.hBoxImport.getChildren().addAll(this.checkBoxImport, this.labelImport, this.textFieldImport,
                 this.buttonImport);
