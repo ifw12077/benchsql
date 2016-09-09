@@ -9,7 +9,6 @@ import edu.hm.cs.benchsql.model.Model;
 import edu.hm.cs.benchsql.view.MainView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 public class ConnectEventHandler implements EventHandler<ActionEvent> {
@@ -44,11 +43,8 @@ public class ConnectEventHandler implements EventHandler<ActionEvent> {
             }
             this.mainView.getLabelConnect().setText(this.model.getConnectedTo() + " verbunden!");
         } else {
-            final Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("Fehler beim Verbinden");
-            alert.setHeaderText("Serververbindung fehlt");
-            alert.setContentText("Bitte wählen Sie eine Serververbindung aus!");
-            alert.showAndWait();
+            this.model.showDialog(AlertType.WARNING, "Fehler beim Verbinden", "Serververbindung fehlt",
+                    "Bitte wählen Sie eine Serververbindung aus!");
         }
     }
 
@@ -70,5 +66,6 @@ public class ConnectEventHandler implements EventHandler<ActionEvent> {
         }
 
         this.mainView.getComboBoxImportAs().getItems().addAll(this.model.getProfileTypeCodes());
+        this.mainView.getComboBoxTestFor().getItems().addAll(this.model.getProfileTypeCodes());
     }
 }

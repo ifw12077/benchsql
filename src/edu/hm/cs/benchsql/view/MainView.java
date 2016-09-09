@@ -64,6 +64,10 @@ public class MainView {
     private final Button buttonImport;
     private final HBox hBoxResult;
     private final Label labelResult;
+    private final HBox hBoxTestFor;
+    private final Label labelTestFor;
+    private final ComboBox<String> comboBoxTestFor;
+    private final TableView tableViewTestFor;
 
     public MainView() {
         this.hBoxServer = new HBox();
@@ -150,9 +154,18 @@ public class MainView {
         this.hBoxResult = new HBox();
         this.hBoxResult.setSpacing(10);
         this.hBoxResult.setPadding(new Insets(5));
-        this.hBoxResult.setAlignment(Pos.CENTER);
+        this.hBoxResult.setAlignment(Pos.CENTER_LEFT);
         this.labelResult = new Label("");
         this.hBoxResult.getChildren().addAll(this.labelResult);
+
+        this.hBoxTestFor = new HBox();
+        this.hBoxTestFor.setSpacing(10);
+        this.hBoxTestFor.setPadding(new Insets(5));
+        this.hBoxTestFor.setAlignment(Pos.CENTER);
+        this.labelTestFor = new Label("Messen:");
+        this.comboBoxTestFor = new ComboBox<>();
+        this.hBoxTestFor.getChildren().addAll(this.labelTestFor, this.comboBoxTestFor);
+        this.tableViewTestFor = new TableView<>();
 
         this.splitPane = new SplitPane();
         this.scrollPane = new ScrollPane();
@@ -163,7 +176,7 @@ public class MainView {
         this.vBoxConnection.getChildren().addAll(this.hBoxServer, this.hBoxIpPort, this.hBoxDatabase, this.hBoxLogin,
                 this.hBoxConnect, new Separator(Orientation.HORIZONTAL), this.hBoxImportData,
                 new Separator(Orientation.HORIZONTAL), this.hBoxImportAs, this.tableViewImportAs, this.hBoxImport,
-                this.hBoxResult);
+                this.hBoxResult, new Separator(Orientation.HORIZONTAL), this.hBoxTestFor, this.tableViewTestFor);
         this.tableViewData = new TableView<>();
         this.splitPane.getItems().addAll(this.scrollPane, this.tableViewData);
         this.scene = new Scene(this.splitPane);
@@ -191,6 +204,10 @@ public class MainView {
 
     public ComboBox<String> getComboBoxImportAs() {
         return this.comboBoxImportAs;
+    }
+
+    public ComboBox<String> getComboBoxTestFor() {
+        return this.comboBoxTestFor;
     }
 
     public ComboBox<String> getComboBoxTypes() {
@@ -255,6 +272,5 @@ public class MainView {
         primaryStage.setScene(this.scene);
         primaryStage.getIcons().add(new Image(this.getClass().getResourceAsStream("./../resources/sql-icon.png")));
         primaryStage.show();
-        this.splitPane.setDividerPosition(0, 0.25);
     }
 }

@@ -34,7 +34,7 @@ public class ChangeImportEventhandler implements EventHandler<ActionEvent> {
     public void handle(final ActionEvent event) {
         this.mainView.getTableViewImportAs().getItems().clear();
         this.mainView.getTableViewImportAs().getColumns().clear();
-        this.model.getPropGrpPropAttributeCodes().clear();
+        this.model.getImportPropGrpPropAttributeCodes().clear();
 
         try {
             this.loadPropGrpPropAttributeCodes(this.model.getConnection(this.model.getConnectedTo()));
@@ -55,7 +55,7 @@ public class ChangeImportEventhandler implements EventHandler<ActionEvent> {
                             + this.mainView.getComboBoxImportAs().getValue()
                             + "')) order by propgrppropattributecode asc");
             while (resultSet.next()) {
-                this.model.getPropGrpPropAttributeCodes().add(resultSet.getString("propgrppropattributecode"));
+                this.model.getImportPropGrpPropAttributeCodes().add(resultSet.getString("propgrppropattributecode"));
             }
             resultSet.close();
             statement.close();
@@ -80,7 +80,7 @@ public class ChangeImportEventhandler implements EventHandler<ActionEvent> {
         tc2.setEditable(true);
         this.mainView.getTableViewImportAs().getColumns().setAll(tc1, tc2);
         final ObservableList<ImportAssignment> data = FXCollections.observableArrayList();
-        for (final String propGrpPropAttributeCode : this.model.getPropGrpPropAttributeCodes()) {
+        for (final String propGrpPropAttributeCode : this.model.getImportPropGrpPropAttributeCodes()) {
             data.add(new ImportAssignment(propGrpPropAttributeCode, this.model.getImportData().get(0)));
         }
         this.mainView.getTableViewImportAs().setItems(data);

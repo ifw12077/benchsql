@@ -26,7 +26,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
 
@@ -40,13 +39,8 @@ public class OpenDataTask extends Task<Void> {
         this.model = model;
         this.mainView = mainView;
         this.file = file;
-        super.setOnSucceeded(event -> {
-            final Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Datenimport erfolgreich");
-            alert.setHeaderText("Die Datei wurde erfolgreich importiert");
-            alert.setContentText(file.getAbsolutePath());
-            alert.showAndWait();
-        });
+        super.setOnSucceeded(event -> this.model.showDialog(AlertType.INFORMATION, "Datenimport erfolgreich",
+                "Die Datei wurde erfolgreich importiert", file.getAbsolutePath()));
     }
 
     @Override
