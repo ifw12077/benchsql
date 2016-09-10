@@ -1,7 +1,8 @@
 package edu.hm.cs.benchsql.controller;
 
-import edu.hm.cs.benchsql.controller.events.ChangeImportEventhandler;
-import edu.hm.cs.benchsql.controller.events.ChangeServerEventhandler;
+import edu.hm.cs.benchsql.controller.events.ChangeImportEventHandler;
+import edu.hm.cs.benchsql.controller.events.ChangeServerEventHandler;
+import edu.hm.cs.benchsql.controller.events.ChangeTestEventHandler;
 import edu.hm.cs.benchsql.controller.events.ConnectEventHandler;
 import edu.hm.cs.benchsql.controller.events.ImportEventHandler;
 import edu.hm.cs.benchsql.controller.events.OpenEventHandler;
@@ -24,9 +25,10 @@ public class MainVC {
         this.mainView.getButtonImportData().setOnAction(new OpenEventHandler(this.model, this.mainView));
         this.mainView.getButtonSave().setOnAction(new SaveEventHandler(this.model, this.mainView));
         this.mainView.getButtonConnect().setOnAction(new ConnectEventHandler(this.model, this.mainView));
-        this.mainView.getComboBoxTypes().setOnAction(new ChangeServerEventhandler(this.model, this.mainView));
-        this.mainView.getComboBoxImportAs().setOnAction(new ChangeImportEventhandler(this.model, this.mainView));
+        this.mainView.getComboBoxTypes().setOnAction(new ChangeServerEventHandler(this.model, this.mainView));
+        this.mainView.getComboBoxImportAs().setOnAction(new ChangeImportEventHandler(this.model, this.mainView));
         this.mainView.getButtonImport().setOnAction(new ImportEventHandler(this.model, this.mainView));
+        this.mainView.getComboBoxTestFor().setOnAction(new ChangeTestEventHandler(this.model, this.mainView));
     }
 
     public void show() {

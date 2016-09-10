@@ -8,8 +8,8 @@ import java.sql.Statement;
 import edu.hm.cs.benchsql.model.Model;
 import edu.hm.cs.benchsql.model.data.ImportAssignment;
 import edu.hm.cs.benchsql.model.data.ImportData;
-import edu.hm.cs.benchsql.view.ComboBoxEditingCell;
 import edu.hm.cs.benchsql.view.MainView;
+import edu.hm.cs.benchsql.view.cells.ComboBoxEditingCell;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -20,12 +20,12 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.util.Callback;
 
-public class ChangeImportEventhandler implements EventHandler<ActionEvent> {
+public class ChangeImportEventHandler implements EventHandler<ActionEvent> {
 
     private final Model model;
     private final MainView mainView;
 
-    public ChangeImportEventhandler(final Model model, final MainView mainView) {
+    public ChangeImportEventHandler(final Model model, final MainView mainView) {
         this.model = model;
         this.mainView = mainView;
     }

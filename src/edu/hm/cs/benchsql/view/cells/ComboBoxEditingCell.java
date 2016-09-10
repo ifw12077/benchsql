@@ -1,4 +1,4 @@
-package edu.hm.cs.benchsql.view;
+package edu.hm.cs.benchsql.view.cells;
 
 import edu.hm.cs.benchsql.model.data.ImportAssignment;
 import edu.hm.cs.benchsql.model.data.ImportData;

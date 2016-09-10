@@ -1,6 +1,7 @@
 package edu.hm.cs.benchsql.view;
 
 import edu.hm.cs.benchsql.model.data.ImportAssignment;
+import edu.hm.cs.benchsql.model.data.TestAssignment;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -67,7 +68,7 @@ public class MainView {
     private final HBox hBoxTestFor;
     private final Label labelTestFor;
     private final ComboBox<String> comboBoxTestFor;
-    private final TableView tableViewTestFor;
+    private final TableView<TestAssignment> tableViewTestFor;
 
     public MainView() {
         this.hBoxServer = new HBox();
@@ -240,6 +241,10 @@ public class MainView {
 
     public TableView<ImportAssignment> getTableViewImportAs() {
         return this.tableViewImportAs;
+    }
+
+    public TableView<TestAssignment> getTableViewTestFor() {
+        return this.tableViewTestFor;
     }
 
     public TextField getTextFieldDatabase() {

@@ -6,12 +6,12 @@ import edu.hm.cs.benchsql.view.MainView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
-public class ChangeServerEventhandler implements EventHandler<ActionEvent> {
+public class ChangeServerEventHandler implements EventHandler<ActionEvent> {
 
     private final Model model;
     private final MainView mainView;
 
-    public ChangeServerEventhandler(final Model model, final MainView mainView) {
+    public ChangeServerEventHandler(final Model model, final MainView mainView) {
         this.model = model;
         this.mainView = mainView;
     }
@@ -32,6 +32,10 @@ public class ChangeServerEventhandler implements EventHandler<ActionEvent> {
             this.mainView.getTableViewImportAs().getItems().clear();
             this.mainView.getLabelConnect().setText("");
             this.mainView.getLabelResult().setText("");
+            this.mainView.getComboBoxTestFor().getSelectionModel().clearSelection();
+            this.mainView.getComboBoxTestFor().getItems().clear();
+            this.mainView.getTableViewTestFor().getColumns().clear();
+            this.mainView.getTableViewTestFor().getItems().clear();
             this.model.setConnectedTo("");
         }
     }
