@@ -1,10 +1,10 @@
 package edu.hm.cs.benchsql.controller.tasks;
 
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import edu.hm.cs.benchsql.model.Model;
 import edu.hm.cs.benchsql.view.MainView;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.scene.control.Alert.AlertType;
 
@@ -12,7 +12,6 @@ public class ImportTask extends Task<Void> {
 
     private final MainView mainView;
     private final Model model;
-    private final int percent = 100;
     private String profileType;
     private String operation;
     private Integer importCount;
@@ -26,9 +25,9 @@ public class ImportTask extends Task<Void> {
         super.setOnSucceeded(event -> this.mainView.getLabelResult()
                 .setText(this.operation + this.model.getConnectedTo() + ":\nImport von " + this.importCount + " "
                         + this.profileType + " (100 Durchgänge)\nMinimalzeit: "
-                        + this.getTimeString(this.statisticArray[0]) + "\nMaximalzeit: "
-                        + this.getTimeString(this.statisticArray[1]) + "\nDurchschnitt: "
-                        + this.getTimeString(this.statisticArray[2])));
+                        + this.model.getTimeString(this.statisticArray[0]) + "\nMaximalzeit: "
+                        + this.model.getTimeString(this.statisticArray[1]) + "\nDurchschnitt: "
+                        + this.model.getTimeString(this.statisticArray[2])));
     }
 
     @Override
@@ -40,10 +39,10 @@ public class ImportTask extends Task<Void> {
                 if (this.profileType != null) {
                     this.importCount = this.getImportCount();
                     final Integer importedCount = 0;
-                    final long[] timeArray = new long[this.percent];
+                    final long[] timeArray = new long[this.model.percent];
                     this.operation = this.mainView.getCheckBoxImport().isSelected() ? "Parallel mit " : "Seriell mit ";
                     if (this.mainView.getCheckBoxImport().isSelected()) {
-                        for (int i = 0; i < this.percent; i++) {
+                        for (int i = 0; i < this.model.percent; i++) {
                             final long startTime = System.currentTimeMillis();
                             this.importParallel(importBase, this.profileType, this.importCount, importedCount);
                             final long endTime = System.currentTimeMillis();
@@ -51,7 +50,7 @@ public class ImportTask extends Task<Void> {
                             this.updateMessage("Durchgang " + (i + 1) + " abgeschlossen.");
                         }
                     } else {
-                        for (int i = 0; i < this.percent; i++) {
+                        for (int i = 0; i < this.model.percent; i++) {
                             final long startTime = System.currentTimeMillis();
                             this.importSerial(importBase, this.profileType, this.importCount, importedCount);
                             final long endTime = System.currentTimeMillis();
@@ -59,19 +58,19 @@ public class ImportTask extends Task<Void> {
                             this.updateMessage("Durchgang " + (i + 1) + " abgeschlossen.");
                         }
                     }
-                    this.statisticArray = this.getStatistics(timeArray);
+                    this.statisticArray = this.model.getStatistics(timeArray);
                 } else {
-                    this.model.showDialog(AlertType.WARNING, "Fehler beim Import", "Kein Profiltyp gewählt",
-                            "Bitte wählen sie einen Profiltyp!");
+                    Platform.runLater(() -> this.model.showDialog(AlertType.WARNING, "Fehler beim Import",
+                            "Kein Profiltyp gewählt", "Bitte wählen sie einen Profiltyp!"));
                 }
             } else {
-                this.model.showDialog(AlertType.WARNING, "Fehler beim Import",
+                Platform.runLater(() -> this.model.showDialog(AlertType.WARNING, "Fehler beim Import",
                         "Serververbindung oder Importdaten fehlen",
-                        "Bitte verbinden Sie sich mit einem Server und importieren Sie Daten!");
+                        "Bitte verbinden Sie sich mit einem Server und importieren Sie Daten!"));
             }
         } else {
-            this.model.showDialog(AlertType.WARNING, "Fehler bei der Eingabe", "Falsche Eingabe beim Import",
-                    "Bitte geben Sie nur ganzahlige Werte an!");
+            Platform.runLater(() -> this.model.showDialog(AlertType.WARNING, "Fehler bei der Eingabe",
+                    "Falsche Eingabe beim Import", "Bitte geben Sie nur ganzahlige Werte an!"));
         }
         return null;
     }
@@ -85,37 +84,6 @@ public class ImportTask extends Task<Void> {
             importCount = 100;
         }
         return importCount;
-    }
-
-    private long[] getStatistics(final long[] timeArray) {
-        final long[] statisticArray = new long[3];
-        for (int i = 0; i < statisticArray.length; i++) {
-            statisticArray[i] = 0;
-        }
-        long totalRuntime = 0;
-        for (final long time : timeArray) {
-            if (statisticArray[0] == 0) {
-                statisticArray[0] = time;
-            } else {
-                if (time < statisticArray[0]) {
-                    statisticArray[0] = time;
-                }
-                if (time > statisticArray[1]) {
-                    statisticArray[1] = time;
-                }
-            }
-            totalRuntime += time;
-        }
-        statisticArray[2] = totalRuntime / this.percent;
-        return statisticArray;
-    }
-
-    private String getTimeString(final long milliTime) {
-        final long minutes = TimeUnit.MILLISECONDS.toMinutes(milliTime);
-        long restTime = milliTime - TimeUnit.MINUTES.toMillis(minutes);
-        final long seconds = TimeUnit.MILLISECONDS.toSeconds(restTime);
-        restTime -= TimeUnit.SECONDS.toMillis(seconds);
-        return String.format("%d m, %d s, %d ms", minutes, seconds, restTime);
     }
 
     private boolean importIsValid() {

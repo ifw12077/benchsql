@@ -69,6 +69,9 @@ public class MainView {
     private final Label labelTestFor;
     private final ComboBox<String> comboBoxTestFor;
     private final TableView<TestAssignment> tableViewTestFor;
+    private final HBox hBoxTest;
+    private final Label labelTest;
+    private final Button buttonTest;
 
     public MainView() {
         this.hBoxServer = new HBox();
@@ -168,6 +171,14 @@ public class MainView {
         this.hBoxTestFor.getChildren().addAll(this.labelTestFor, this.comboBoxTestFor);
         this.tableViewTestFor = new TableView<>();
 
+        this.hBoxTest = new HBox();
+        this.hBoxTest.setSpacing(10);
+        this.hBoxTest.setPadding(new Insets(5));
+        this.hBoxTest.setAlignment(Pos.CENTER);
+        this.labelTest = new Label("");
+        this.buttonTest = new Button("Messen");
+        this.hBoxTest.getChildren().addAll(this.labelTest, this.buttonTest);
+
         this.splitPane = new SplitPane();
         this.scrollPane = new ScrollPane();
         this.scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
@@ -177,7 +188,8 @@ public class MainView {
         this.vBoxConnection.getChildren().addAll(this.hBoxServer, this.hBoxIpPort, this.hBoxDatabase, this.hBoxLogin,
                 this.hBoxConnect, new Separator(Orientation.HORIZONTAL), this.hBoxImportData,
                 new Separator(Orientation.HORIZONTAL), this.hBoxImportAs, this.tableViewImportAs, this.hBoxImport,
-                this.hBoxResult, new Separator(Orientation.HORIZONTAL), this.hBoxTestFor, this.tableViewTestFor);
+                this.hBoxResult, new Separator(Orientation.HORIZONTAL), this.hBoxTestFor, this.tableViewTestFor,
+                this.hBoxTest);
         this.tableViewData = new TableView<>();
         this.splitPane.getItems().addAll(this.scrollPane, this.tableViewData);
         this.scene = new Scene(this.splitPane);
@@ -197,6 +209,10 @@ public class MainView {
 
     public Button getButtonSave() {
         return this.buttonSave;
+    }
+
+    public Button getButtonTest() {
+        return this.buttonTest;
     }
 
     public CheckBox getCheckBoxImport() {
@@ -225,6 +241,10 @@ public class MainView {
 
     public Label getLabelResult() {
         return this.labelResult;
+    }
+
+    public Label getLabelTest() {
+        return this.labelTest;
     }
 
     public PasswordField getPasswordFieldPasswort() {

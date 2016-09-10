@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import edu.hm.cs.benchsql.model.data.ImportData;
 import edu.hm.cs.benchsql.model.data.SqlConnection;
@@ -23,6 +24,7 @@ public class Model {
     private final ArrayList<String> profileTypeCodes;
     private final ArrayList<String> importPropGrpPropAttributeCodes;
     private final ArrayList<String> testPropGrpPropAttributeCodes;
+    public final int percent = 100;
 
     public Model(final Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -95,8 +97,39 @@ public class Model {
         }
     }
 
+    public long[] getStatistics(final long[] timeArray) {
+        final long[] statisticArray = new long[3];
+        for (int i = 0; i < statisticArray.length; i++) {
+            statisticArray[i] = 0;
+        }
+        long totalRuntime = 0;
+        for (final long time : timeArray) {
+            if (statisticArray[0] == 0) {
+                statisticArray[0] = time;
+            } else {
+                if (time < statisticArray[0]) {
+                    statisticArray[0] = time;
+                }
+                if (time > statisticArray[1]) {
+                    statisticArray[1] = time;
+                }
+            }
+            totalRuntime += time;
+        }
+        statisticArray[2] = totalRuntime / this.percent;
+        return statisticArray;
+    }
+
     public ArrayList<String> getTestPropGrpPropAttributeCodes() {
         return this.testPropGrpPropAttributeCodes;
+    }
+
+    public String getTimeString(final long milliTime) {
+        final long minutes = TimeUnit.MILLISECONDS.toMinutes(milliTime);
+        long restTime = milliTime - TimeUnit.MINUTES.toMillis(minutes);
+        final long seconds = TimeUnit.MILLISECONDS.toSeconds(restTime);
+        restTime -= TimeUnit.SECONDS.toMillis(seconds);
+        return String.format("%d m, %d s, %d ms", minutes, seconds, restTime);
     }
 
     public void setConnectedTo(final String connectedTo) {
