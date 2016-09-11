@@ -20,6 +20,7 @@ public class TestTask extends Task<Void> {
     private final MainView mainView;
     private String profileType;
     private long[] statisticArray;
+    private int size = 0;
 
     public TestTask(final Model model, final MainView mainView) {
         this.model = model;
@@ -27,7 +28,7 @@ public class TestTask extends Task<Void> {
         super.messageProperty()
                 .addListener((obs, oldMessage, newMessage) -> this.mainView.getLabelTest().setText(newMessage));
         super.setOnSucceeded(event -> this.mainView.getLabelTest()
-                .setText(this.model.getConnectedTo() + ":\nLesen von " + this.profileType
+                .setText(this.model.getConnectedTo() + " (" + this.size + " Ergebnisse):\nLesen von " + this.profileType
                         + " (100 Durchgänge)\nMinimalzeit: " + this.model.getTimeString(this.statisticArray[0])
                         + "\nMaximalzeit: " + this.model.getTimeString(this.statisticArray[1]) + "\nDurchschnitt: "
                         + this.model.getTimeString(this.statisticArray[2])));
@@ -97,7 +98,7 @@ public class TestTask extends Task<Void> {
                         statement.execute();
                         resultSet = statement.getResultSet();
                         if (resultSet.next()) {
-                            result = resultSet.toString();
+                            result = resultSet.getString(1);
                         }
                         resultSet.close();
                         statement.close();
@@ -112,7 +113,7 @@ public class TestTask extends Task<Void> {
                                     statement.execute();
                                     resultSet = statement.getResultSet();
                                     if (resultSet.next()) {
-                                        result = resultSet.toString();
+                                        result = resultSet.getString(1);
                                     }
                                     resultSet.close();
                                     statement.close();
@@ -122,6 +123,11 @@ public class TestTask extends Task<Void> {
                                 statement = connection.prepareCall("CALL READOBJECTS()");
                                 statement.execute();
                                 resultSet = statement.getResultSet();
+                                if (this.size == 0) {
+                                    while (resultSet.next()) {
+                                        this.size++;
+                                    }
+                                }
                                 resultSet.close();
                                 statement.close();
                             }
@@ -215,7 +221,7 @@ public class TestTask extends Task<Void> {
                         callStatement.execute();
                         resultSet = callStatement.getResultSet();
                         if (resultSet.next()) {
-                            result = resultSet.toString();
+                            result = resultSet.getString(1);
                         }
                         resultSet.close();
                         callStatement.close();
@@ -230,7 +236,7 @@ public class TestTask extends Task<Void> {
                                     callStatement.execute();
                                     resultSet = callStatement.getResultSet();
                                     if (resultSet.next()) {
-                                        result = resultSet.toString();
+                                        result = resultSet.getString(1);
                                     }
                                     resultSet.close();
                                     callStatement.close();
@@ -317,7 +323,7 @@ public class TestTask extends Task<Void> {
                         callStatement.execute();
                         resultSet = callStatement.getResultSet();
                         if (resultSet.next()) {
-                            result = resultSet.toString();
+                            result = resultSet.getString(1);
                         }
                         resultSet.close();
                         callStatement.close();
@@ -332,7 +338,7 @@ public class TestTask extends Task<Void> {
                                     callStatement.execute();
                                     resultSet = callStatement.getResultSet();
                                     if (resultSet.next()) {
-                                        result = resultSet.toString();
+                                        result = resultSet.getString(1);
                                     }
                                     resultSet.close();
                                     callStatement.close();
@@ -342,6 +348,11 @@ public class TestTask extends Task<Void> {
                                 callStatement = connection.prepareCall("EXEC READOBJECTS");
                                 callStatement.execute();
                                 resultSet = callStatement.getResultSet();
+                                if (this.size == 0) {
+                                    while (resultSet.next()) {
+                                        this.size++;
+                                    }
+                                }
                                 resultSet.close();
                                 callStatement.close();
                             }
