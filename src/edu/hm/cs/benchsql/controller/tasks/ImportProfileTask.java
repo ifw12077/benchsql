@@ -119,27 +119,27 @@ public class ImportProfileTask extends Task<Void> {
         String result = "";
         try {
             statement = connection.createStatement();
-            statement.executeQuery(
+            statement.execute(
                     "CREATE TABLE #tmp_arguments (id int NOT NULL IDENTITY, propertygroup long nvarchar NULL, propertykey long nvarchar NULL, propertyvalue long nvarchar NULL)");
             statement.close();
             statement = connection.createStatement();
-            statement.executeQuery(
+            statement.execute(
                     "CREATE TABLE #tmp_member (id int NOT NULL IDENTITY, memberid int NULL, workstatus long nvarchar NULL)");
             statement.close();
             statement = connection.createStatement();
-            statement.executeQuery(
+            statement.execute(
                     "CREATE TABLE #tmp_contract (id int NOT NULL IDENTITY, contractid int NULL, workstatus long nvarchar NULL)");
             statement.close();
             statement = connection.createStatement();
-            statement.executeQuery(
+            statement.execute(
                     "CREATE TABLE #tmp_source (id int NOT NULL IDENTITY, sourceid int NULL, workstatus long nvarchar NULL)");
             statement.close();
             statement = connection.createStatement();
-            statement.executeQuery(
+            statement.execute(
                     "CREATE TABLE #tmp_target (id int NOT NULL IDENTITY, targetid int NULL, workstatus long nvarchar NULL)");
             statement.close();
             statement = connection.createStatement();
-            statement.executeQuery(
+            statement.execute(
                     "CREATE TABLE #tmp_sysarguments (id int NOT NULL IDENTITY, argkey long nvarchar NULL, argvalue long nvarchar NULL)");
             statement.close();
             callStatement = connection.prepareCall("EXEC SETARGUMENT 'CURRENTPROFILETYPECODE', ?");
@@ -385,27 +385,27 @@ public class ImportProfileTask extends Task<Void> {
         String result = "";
         try {
             statement = connection.createStatement();
-            statement.executeQuery(
+            statement.execute(
                     "CREATE TABLE #tmp_arguments (id int NOT NULL IDENTITY, propertygroup long nvarchar NULL, propertykey long nvarchar NULL, propertyvalue long nvarchar NULL)");
             statement.close();
             statement = connection.createStatement();
-            statement.executeQuery(
+            statement.execute(
                     "CREATE TABLE #tmp_member (id int NOT NULL IDENTITY, memberid int NULL, workstatus long nvarchar NULL)");
             statement.close();
             statement = connection.createStatement();
-            statement.executeQuery(
+            statement.execute(
                     "CREATE TABLE #tmp_contract (id int NOT NULL IDENTITY, contractid int NULL, workstatus long nvarchar NULL)");
             statement.close();
             statement = connection.createStatement();
-            statement.executeQuery(
+            statement.execute(
                     "CREATE TABLE #tmp_source (id int NOT NULL IDENTITY, sourceid int NULL, workstatus long nvarchar NULL)");
             statement.close();
             statement = connection.createStatement();
-            statement.executeQuery(
+            statement.execute(
                     "CREATE TABLE #tmp_target (id int NOT NULL IDENTITY, targetid int NULL, workstatus long nvarchar NULL)");
             statement.close();
             statement = connection.createStatement();
-            statement.executeQuery(
+            statement.execute(
                     "CREATE TABLE #tmp_sysarguments (id int NOT NULL IDENTITY, argkey long nvarchar NULL, argvalue long nvarchar NULL)");
             statement.close();
             callStatement = connection.prepareCall("EXEC SETARGUMENT 'CURRENTPROFILETYPECODE', ?");
