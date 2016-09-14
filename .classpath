@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry excluding="src/" kind="src" path=""/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/Administrator.BARBAROSSA/JOP/benchsql/src/edu/hm/cs/benchsql/resources/mysql-connector-java-5.1.39-bin.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Administrator.BARBAROSSA/JOP/benchsql/src/edu/hm/cs/benchsql/resources/opencsv-3.8.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Administrator.BARBAROSSA/JOP/benchsql/src/edu/hm/cs/benchsql/resources/poi-3.14-20160307.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Administrator.BARBAROSSA/JOP/benchsql/src/edu/hm/cs/benchsql/resources/poi-ooxml-3.14-20160307.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Administrator.BARBAROSSA/JOP/benchsql/src/edu/hm/cs/benchsql/resources/poi-ooxml-schemas-3.14-20160307.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Administrator.BARBAROSSA/JOP/benchsql/src/edu/hm/cs/benchsql/resources/sajdbc4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Administrator.BARBAROSSA/JOP/benchsql/src/edu/hm/cs/benchsql/resources/sqljdbc42.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Administrator.BARBAROSSA/JOP/benchsql/src/edu/hm/cs/benchsql/resources/xmlbeans-2.6.0.jar"/>
-	<classpathentry kind="output" path="out/production/JavaFxApplication"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Administrator.BARBAROSSA/JOP/benchsql/src/edu/hm/cs/benchsql/resources/mysql-connector-java-5.1.39-bin.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Administrator.BARBAROSSA/JOP/benchsql/src/edu/hm/cs/benchsql/resources/opencsv-3.8.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Administrator.BARBAROSSA/JOP/benchsql/src/edu/hm/cs/benchsql/resources/poi-3.14-20160307.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Administrator.BARBAROSSA/JOP/benchsql/src/edu/hm/cs/benchsql/resources/poi-ooxml-3.14-20160307.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Administrator.BARBAROSSA/JOP/benchsql/src/edu/hm/cs/benchsql/resources/poi-ooxml-schemas-3.14-20160307.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Administrator.BARBAROSSA/JOP/benchsql/src/edu/hm/cs/benchsql/resources/sajdbc4.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Administrator.BARBAROSSA/JOP/benchsql/src/edu/hm/cs/benchsql/resources/sqljdbc42.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Administrator.BARBAROSSA/JOP/benchsql/src/edu/hm/cs/benchsql/resources/xmlbeans-2.6.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>

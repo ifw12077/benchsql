@@ -32,9 +32,9 @@ public class Model {
         this.importPropGrpPropAttributeCodes = new ArrayList<>();
         this.testPropGrpPropAttributeCodes = new ArrayList<>();
         this.importData = FXCollections.observableArrayList();
-        this.mysqlConnection = new SqlConnection("192.168.47.7", "30857", "", "federico", "root", "%dbaIN1501");
-        this.mssqlConnection = new SqlConnection("192.168.47.7", "1433", "", "federico", "federico", "federico");
-        this.sybaseConnection = new SqlConnection("192.168.47.7", "49155", "federico", "federico", "dba", "dba");
+        this.mysqlConnection = new SqlConnection();
+        this.mssqlConnection = new SqlConnection();
+        this.sybaseConnection = new SqlConnection();
     }
 
     public String getConnectedTo() {

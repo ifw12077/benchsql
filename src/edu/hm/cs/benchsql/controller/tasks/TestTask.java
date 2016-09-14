@@ -123,12 +123,14 @@ public class TestTask extends Task<Void> {
                                 statement = connection.prepareCall("CALL READOBJECTS()");
                                 statement.execute();
                                 resultSet = statement.getResultSet();
-                                if (this.size == 0) {
+                                if ((this.size == 0) && (resultSet != null)) {
                                     while (resultSet.next()) {
                                         this.size++;
                                     }
                                 }
-                                resultSet.close();
+                                if (resultSet != null) {
+                                    resultSet.close();
+                                }
                                 statement.close();
                             }
                         }
@@ -246,7 +248,14 @@ public class TestTask extends Task<Void> {
                                 callStatement = connection.prepareCall("EXEC READOBJECTS");
                                 callStatement.execute();
                                 resultSet = callStatement.getResultSet();
-                                resultSet.close();
+                                if ((this.size == 0) && (resultSet != null)) {
+                                    while (resultSet.next()) {
+                                        this.size++;
+                                    }
+                                }
+                                if (resultSet != null) {
+                                    resultSet.close();
+                                }
                                 callStatement.close();
                             }
                         }
@@ -353,7 +362,9 @@ public class TestTask extends Task<Void> {
                                         this.size++;
                                     }
                                 }
-                                resultSet.close();
+                                if (resultSet != null) {
+                                    resultSet.close();
+                                }
                                 callStatement.close();
                             }
                         }
